@@ -1,0 +1,84 @@
+{
+  "method": "POST",
+  "request": {
+    "path": "/api/v1/board/${dynamic}/task",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "payload": {
+      "author": "some-author-user-id",
+      "assigned": "some-assigned-user-id",
+      "summary": "My first task",
+      "project": "super-project-id",
+      "sprint": "sprint-8-id",
+      "labels": ["UX"],
+      "issue_type": "task",
+      "components": ["dashboard", "kpi-telemetry"],
+      "description": "Very informative issue description",
+      "priority": "high"
+    }
+  },
+  "response": {
+    "payload": {
+      "author": {
+        "id": "some-author-user-id",
+        "email": "some-author@example.com",
+        "name": "John Smith",
+        "picture": "http://example.com/john.png",
+        "is_active": true
+      },
+      "assigned": {
+        "id": "some-assigned-user-id",
+        "email": "mike@example.com",
+        "name": "Mike",
+        "picture": "http://example.com/mike.png",
+        "is_active": false
+      },
+      "summary": "My first task",
+      "project": {
+        "id": "super-project-id",
+        "name": "My Super Project"
+      },
+      "sprint": "sprint-8",
+      "labels": ["UX"],
+      "issue_type": "task",
+      "components": ["dashboard", "kpi-telemetry"],
+      "description": "Very informative issue description",
+      "priority": "high",
+      "status": {
+        "id": "todo-id",
+        "name": "TO DO"
+      },
+      "activity": [
+        {
+          "user_id": "some-author-user-id",
+          "action": "created",
+          "created_at": "2021-10-31T01:30:00.000-05:00"
+        },
+        {
+          "user_id": "some-author-user-id",
+          "action": "assigned",
+          "details": {
+            "id": "some-assigned-user-id",
+            "email": "mike@example.com",
+            "name": "Mike",
+            "picture": "http://example.com/mike.png",
+            "is_active": false
+          },
+          "created_at": "2021-10-31T01:30:00.000-05:00"
+        },
+        {
+          "user_id": "some-author-user-id",
+          "action": "new_status",
+          "details": {
+            "id": "todo-id",
+            "name": "TO DO"
+          },
+          "created_at": "2021-10-31T01:30:00.000-05:00"
+        }
+      ],
+      "created_at": "2021-10-31T01:30:00.000-05:00",
+      "modified_at": "2021-10-31T01:30:00.000-05:00"
+    }
+  }
+}

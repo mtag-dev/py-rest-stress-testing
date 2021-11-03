@@ -1,0 +1,21 @@
+{
+  "method": "GET",
+  "request": {
+    "path": "/api/v1/userinfo/${dynamic}",
+    "headers": {
+      "content-type": "application/json"
+    }
+  },
+  "response": {
+    "payload": {
+     "sub": "bob",
+     "group_ids": [ "bobsdepartment","administrators" ],
+     "given_name": "Bob",
+     "name": "Bob Smith",
+     "email": "bob@mycompany.com",
+     "phone_number": "+1 (604) 555-1234;ext5678",
+     "address": { "formatted" : "123 Main St., Anytown, TX 77777" },
+     "picture": "http://mycompany.com/bob_photo.jpg"
+    }
+  }
+}

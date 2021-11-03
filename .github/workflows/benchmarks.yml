@@ -1,0 +1,137 @@
+name: benchmarks
+
+on:
+  workflow_run:
+    workflows: [tests]
+    branches: [master]
+    types: [completed]
+
+jobs:
+  benchmark:
+    name: Run the benchmark
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create docker network
+        run: docker network create data
+
+      - name: Build Base
+        run: docker build . -t benchmark-base
+        shell: bash
+
+      - name: Benchmark AIOHTTP [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: aiohttp
+          network: data
+
+      - name: Benchmark Blacksheep [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: blacksheep
+          network: data
+
+      - name: Benchmark Baize [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: baize
+          network: data
+
+      - name: Benchmark Muffin [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: muffin
+          network: data
+
+      - name: Benchmark Quart [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: quart
+          network: data
+
+      - name: Benchmark Sanic [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: sanic
+          network: data
+
+      - name: Benchmark Starlette [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: starlette
+          network: data
+
+      - name: Benchmark Falcon [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: falcon
+          network: data
+
+      - name: Benchmark FastApi [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: fastapi
+          network: data
+
+      - name: Benchmark Emmett [raw]
+        uses: ./.github/actions/benchmark_raw
+        with:
+          name: emmett
+          network: data
+
+      - name: Benchmark Blacksheep [dataclass]
+        uses: ./.github/actions/benchmark_dataclass
+        with:
+          name: blacksheep-dataclass
+          network: data
+
+      - name: Benchmark FastApi [dataclass]
+        uses: ./.github/actions/benchmark_dataclass
+        with:
+          name: fastapi-dataclass
+          network: data
+
+      - name: Benchmark Blacksheep [pydantic]
+        uses: ./.github/actions/benchmark_pydantic
+        with:
+          name: blacksheep-pydantic
+          network: data
+
+      - name: Benchmark FastApi [pydantic]
+        uses: ./.github/actions/benchmark_pydantic
+        with:
+          name: fastapi-pydantic
+          network: data
+
+      - name: Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: ./results
+
+  readme:
+    name: Update Results
+    needs: benchmark
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+      - uses: actions/setup-python@v2
+      - run: python -m pip install -r render/requirements.txt
+      - run: python render/render.py
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Commit changes
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -am "Update results"
+          git tag ${{ steps.date.outputs.date }}
+          git push -f --tags
+          git push

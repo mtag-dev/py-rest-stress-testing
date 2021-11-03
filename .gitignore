@@ -1,0 +1,8 @@
+/todo.txt
+/_
+/env
+/results
+/.vimrc
+/docs/*.lock
+/docs/_site
+/.idea/
