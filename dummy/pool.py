@@ -21,7 +21,7 @@ class Connection:
 class Pool:
     def __init__(self,
                  data_getter: Connection,
-                 pool_size: int = 10):
+                 pool_size: int = 100):
         self.pool_size = pool_size
         self._data_getter = data_getter
         self._async_q = None
