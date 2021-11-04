@@ -53,12 +53,19 @@ benchmark-framework-setup:
 			--sysctl net.ipv4.vs.conntrack=0 \
 			--sysctl net.ipv4.vs.expire_nodest_conn=1 \
 			--sysctl net.ipv4.vs.conn_reuse_mode=0 \
+			-v `dirname $(CURDIR)`/squall:/squall \
 			-v $(CURDIR)/dummy:/app/dummy \
 			-v $(CURDIR)/fixtures:/app/fixtures \
 			-v $(CURDIR)/frameworks/schema_dataclasses.py:/app/schema_dataclasses.py \
 			-v $(CURDIR)/frameworks/schema_pydantic.py:/app/schema_pydantic.py \
 			-p 8080:8080 \
 			--name benchmark benchmarks:$(FRAMEWORK)
+
+    ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall squall-dataclass squall-pydantic))
+		docker exec benchmark pip install /squall
+		@sleep 2
+    endif
+
 	@echo "\nSetup finished [$(FRAMEWORK)]\n"
 
 .PHONY: benchmark-framework-teardown
@@ -148,10 +155,13 @@ benchmark: # clean
 	@make benchmark-raw FRAMEWORK=quart
 	@make benchmark-raw FRAMEWORK=sanic
 	@make benchmark-raw FRAMEWORK=starlette
+	@make benchmark-raw FRAMEWORK=squall
 	@make benchmark-dataclass FRAMEWORK=fastapi-dataclass
 	@make benchmark-dataclass FRAMEWORK=blacksheep-dataclass
+	@make benchmark-dataclass FRAMEWORK=squall-dataclass
 	@make benchmark-pydantic FRAMEWORK=fastapi-pydantic
 	@make benchmark-pydantic FRAMEWORK=blacksheep-pydantic
+	@make benchmark-pydantic FRAMEWORK=squall-pydantic
 	@make render
 
 # Run benchmark
