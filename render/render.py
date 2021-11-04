@@ -13,9 +13,9 @@ BASEDIR = Path(__file__).parent.parent
 FRAMEWORKS = BASEDIR / 'frameworks'
 README = Path(BASEDIR / 'README.md')
 README_TEMPLATE = jinja2.Template((BASEDIR / 'render/README.md').read_text())
-PAGES_HOME = Path(BASEDIR / 'docs/index.md')
+# PAGES_HOME = Path(BASEDIR / 'docs/index.md')
 PAGES_HOME_TEMPLATE = jinja2.Template((BASEDIR / 'render/pages/index.md').read_text())
-PAGES_RESULTS = Path(BASEDIR / f"docs/_posts/{ NOW.strftime('%Y-%m-%d') }-results.md")
+# PAGES_RESULTS = Path(BASEDIR / f"docs/_posts/{ NOW.strftime('%Y-%m-%d') }-results.md")
 PAGES_RESULTS_TEMPLATE = jinja2.Template((BASEDIR / 'render/pages/results.md').read_text())
 
 Result = namedtuple('Result', ['name', 'version', 'req', 'lt50', 'lt75', 'lt90', 'lt_avg', 'es', 'er', 'et'])
@@ -50,8 +50,8 @@ def render():
     render_template(README_TEMPLATE, README, **ctx)
 
     # Render pages
-    render_template(PAGES_HOME_TEMPLATE, PAGES_HOME, **ctx)
-    render_template(PAGES_RESULTS_TEMPLATE, PAGES_RESULTS, **ctx)
+    # render_template(PAGES_HOME_TEMPLATE, PAGES_HOME, **ctx)
+    # render_template(PAGES_RESULTS_TEMPLATE, PAGES_RESULTS, **ctx)
 
 
 def parse_version(name):
