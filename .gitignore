@@ -1,8 +1,11 @@
 /todo.txt
 /_
 /env
+/venv
 /results
 /.vimrc
 /docs/*.lock
 /docs/_site
 /.idea/
+__pycache__
+*.pyc
