@@ -22,11 +22,13 @@ Result = namedtuple('Result', ['name', 'version', 'req', 'lt50', 'lt75', 'lt90',
 
 results = {
     "res_userinfo_raw": Path(BASEDIR / 'results/userinfo-raw.csv'),
-    "res_userinfo_dataclass": Path(BASEDIR / 'results/userinfo-dataclass.csv'),
+    "res_userinfo_dataclass": Path(BASEDIR / 'results/userinfo-dataclasses.csv'),
     "res_userinfo_pydantic": Path(BASEDIR / 'results/userinfo-pydantic.csv'),
     "res_sprint_raw": Path(BASEDIR / 'results/sprint-raw.csv'),
-    "res_sprint_dataclass": Path(BASEDIR / 'results/sprint-dataclass.csv'),
+    "res_sprint_dataclass": Path(BASEDIR / 'results/sprint-dataclasses.csv'),
     "res_sprint_pydantic": Path(BASEDIR / 'results/sprint-pydantic.csv'),
+    "res_create_task_raw": Path(BASEDIR / 'results/create-task-raw.csv'),
+    "res_create_task_dataclass": Path(BASEDIR / 'results/create-task-dataclasses.csv'),
 }
 
 
@@ -38,7 +40,6 @@ def render():
         with open(source) as csvfile:
             dataset[scenario] = [
                 Result(name, parse_version(name), round(int(req) / 15), *row) for name, req, *row in csv.reader(csvfile)]
-
 
     ctx = dict(
         now=NOW,
@@ -55,8 +56,9 @@ def render():
 
 
 def parse_version(name):
-    requirements = (FRAMEWORKS / name / 'requirements.txt').read_text()
-    version = re.match(f"^\s*{name}[^=]*==\s*(.*)\s*$", requirements, re.MULTILINE)  # noqa
+    fw_name = name.split('-')[0]
+    requirements = (FRAMEWORKS / fw_name / 'requirements.txt').read_text()
+    version = re.match(f"^\s*{fw_name}[^=]*==\s*(.*)\s*$", requirements, re.MULTILINE)  # noqa
     return version and version.group(1) or ''
 
 

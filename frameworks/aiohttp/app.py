@@ -1,5 +1,4 @@
-from aiohttp.web import (
-    RouteTableDef, Application, Response, json_response, HTTPBadRequest, HTTPUnauthorized)
+from aiohttp.web import RouteTableDef, Application, Response, json_response
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -18,18 +17,26 @@ for n in range(10):
     routes.put(f"/route-put-{n}/{{part}}")(req_any)
 
 
-# then prepare endpoints for the benchmark
-# ----------------------------------------
-@routes.get("/api/v1/userinfo/{dynamic}")
-async def handler(request):
+# raw scenario GET
+# ------------------------------------------------
+@routes.get("/api/v1/userinfo/raw/{dynamic}")
+async def raw_userinfo(request):
     async with pool as connection:
         return json_response(await connection.get("userinfo.json"))
 
 
-@routes.get("/api/v1/sprint/{dynamic}")
-async def handler(request):
+@routes.get("/api/v1/sprint/raw/{dynamic}")
+async def raw_sprint(request):
     async with pool as connection:
         return json_response(await connection.get("sprint.json"))
+
+
+# raw scenario POST
+# ------------------------------------------------
+@routes.post("/api/v1/board/raw/{dynamic}/task")
+async def raw_create_task(request):
+    async with pool as connection:
+        return json_response(await connection.get("create-task.json"))
 
 
 app = Application()

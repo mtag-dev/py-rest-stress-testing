@@ -4,17 +4,29 @@ from json import dumps
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
 
+# raw scenario GET
+# ------------------------------------------------
 
-class userinfo:
+
+class raw_userinfo:
     async def on_get(self, request, response, dynamic):
         async with pool as connection:
             response.text = dumps(await connection.get("userinfo.json"))
 
 
-class sprint:
+class raw_sprint:
     async def on_get(self, request, response, dynamic):
         async with pool as connection:
             response.text = dumps(await connection.get("sprint.json"))
+
+# raw scenario POST
+# ------------------------------------------------
+
+
+class raw_create_task:
+    async def on_post(self, request, response, dynamic):
+        async with pool as connection:
+            response.text = dumps(await connection.get("create-task.json"))
 
 
 app = App()
@@ -41,5 +53,6 @@ for n in range(10):
 
 # then prepare endpoints for the benchmark
 # ----------------------------------------
-app.add_route('/api/v1/userinfo/{dynamic:int}', userinfo())
-app.add_route('/api/v1/sprint/{dynamic:int}', sprint())
+app.add_route('/api/v1/userinfo/raw/{dynamic:int}', raw_userinfo())
+app.add_route('/api/v1/sprint/raw/{dynamic:int}', raw_sprint())
+app.add_route('/api/v1/board/raw/{dynamic:int}/task', raw_create_task())

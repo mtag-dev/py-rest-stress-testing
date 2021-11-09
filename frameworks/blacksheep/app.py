@@ -1,8 +1,32 @@
+from pydantic.dataclasses import dataclass as pydataclass
+
 from blacksheep import Application
-from blacksheep.server.responses import html, json, bad_request, text, unauthorized
+from blacksheep.server.responses import html, json
+from blacksheep.server.bindings import FromJSON
+
+
+from schema_dataclasses import UserInfoResponse as DataClassesUserInfoResponse
+from schema_dataclasses import SprintResponse as DataClassesSprintResponse
+from schema_dataclasses import CreateTaskRequestBody as DataClassesCreateTaskRequestBody
+from schema_dataclasses import CreateTaskResponse as DataClassesCreateTaskResponse
+
+from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
+from schema_pydantic import SprintResponse as PydanticSprintResponse
 
 from dummy.pool import Pool, Connection
+
 pool = Pool(data_getter=Connection())
+
+
+# FastAPI/Squall convert original dataclasses to pydantic dataclasses implicitly
+# BlackSheep doesn't do it but there is an option just use pydantic dataclasses
+# in order to make equal tests we set pydantic dataclasses here explicitly
+# Check https://fastapi.tiangolo.com/advanced/dataclasses/
+# Check https://www.neoteroi.dev/blacksheep/requests/#reading-json
+DataClassesUserInfoResponse = pydataclass(DataClassesUserInfoResponse)
+DataClassesSprintResponse = pydataclass(DataClassesSprintResponse)
+DataClassesCreateTaskRequestBody = pydataclass(DataClassesCreateTaskRequestBody)
+DataClassesCreateTaskResponse = pydataclass(DataClassesCreateTaskResponse)
 
 
 app = Application()
@@ -19,15 +43,59 @@ for n in range(10):
     app.route(f"/route-put-{n}/{{part}}", methods=['PUT'])(req_any)
 
 
-# then prepare endpoints for the benchmark
-# ----------------------------------------
-@app.route('/api/v1/userinfo/{dynamic}', methods=['GET'])
+# raw scenario GET
+# ------------------------------------------------
+@app.route('/api/v1/userinfo/raw/{dynamic}', methods=['GET'])
 async def get_userinfo(request):
     async with pool as connection:
         return json(await connection.get("userinfo.json"))
 
 
-@app.route('/api/v1/sprint/{dynamic}', methods=['GET'])
+@app.route('/api/v1/sprint/raw/{dynamic}', methods=['GET'])
 async def get_userinfo(request):
     async with pool as connection:
         return json(await connection.get("sprint.json"))
+
+
+# dataclasses scenario GET
+# ------------------------------------------------
+@app.route('/api/v1/userinfo/dataclasses/{dynamic}', methods=['GET'])
+async def get_userinfo(request) -> DataClassesUserInfoResponse:
+    async with pool as connection:
+        return DataClassesUserInfoResponse(**(await connection.get("userinfo.json")))
+
+
+@app.route('/api/v1/sprint/dataclasses/{dynamic}', methods=['GET'])
+async def get_userinfo(request) -> DataClassesSprintResponse:
+    async with pool as connection:
+        return DataClassesSprintResponse(**(await connection.get("sprint.json")))
+
+
+# pydantic scenario GET
+# ------------------------------------------------
+@app.route('/api/v1/userinfo/pydantic/{dynamic}', methods=['GET'])
+async def get_userinfo(request) -> PydanticUserInfoResponse:
+    async with pool as connection:
+        return PydanticUserInfoResponse(**(await connection.get("userinfo.json")))
+
+
+@app.route('/api/v1/sprint/pydantic/{dynamic}', methods=['GET'])
+async def get_userinfo(request) -> PydanticSprintResponse:
+    async with pool as connection:
+        return PydanticSprintResponse(**(await connection.get("sprint.json")))
+
+
+# raw scenario POST
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/{dynamic}/task', methods=['POST'])
+async def raw_create_task(request):
+    async with pool as connection:
+        return json(await connection.get("userinfo.json"))
+
+
+# dataclasses scenario POST
+# ------------------------------------------------
+@app.route('/api/v1/board/dataclasses/{dynamic}/task', methods=['POST'])
+async def dataclasses_create_task(data: FromJSON[DataClassesCreateTaskRequestBody]) -> DataClassesCreateTaskResponse:
+    async with pool as connection:
+        return DataClassesCreateTaskResponse(**(await connection.get("create-task.json")))

@@ -1,12 +1,11 @@
 -- Module instantiation
 local cjson = require "cjson"
-local cjson2 = cjson.new()
-local cjson_safe = require "cjson.safe"
 
 -- Read framework and fixture configuration
 local framework = os.getenv("FRAMEWORK")
 local fixture_path = os.getenv("FIXTURE")
 local filename = os.getenv("FILENAME")
+local scenario = os.getenv("SCENARIO")
 
 -- Load URL paths from the file
 function load_fixture(file)
@@ -38,11 +37,12 @@ counter = 1
 
 request = function()
   counter = counter + 1  -- Increment dynamic counter
+
   return wrk.format(
       fixture.method,
-      interp(fixture.request.path, { dynamic = counter }),
+      interp(fixture.request.path, { scenario = scenario, dynamic = counter }),
       fixture.request.headers,
-      fixture.request.body
+      fixture.request.payload
     )
 end
 
@@ -53,7 +53,7 @@ done = function(summary, latency, requests)
         file,
         string.format(
             "%s,%d,%.2f,%.2f,%.2f,%.2f,%d,%d,%d\n",
-            framework,
+            framework .. "-" .. scenario,
             summary.requests,
             latency:percentile(50) / 1000,
             latency:percentile(75) / 1000,

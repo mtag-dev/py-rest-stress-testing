@@ -1,5 +1,5 @@
 from starlette.applications import Starlette
-from starlette.responses import HTMLResponse, JSONResponse, PlainTextResponse, Response
+from starlette.responses import HTMLResponse, JSONResponse
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -16,14 +16,23 @@ for n in range(10):
     app.route(f"/route-put-{n}/{{part}}", methods=['PUT'])(HTMLResponse('ok'))
 
 
-@app.route('/api/v1/userinfo/{dynamic}', methods=['GET'])
-async def api(request):
+# raw scenario GET
+# ------------------------------------------------
+@app.route('/api/v1/userinfo/raw/{dynamic}', methods=['GET'])
+async def raw_userinfo(request):
     async with pool as connection:
         return JSONResponse(await connection.get("userinfo.json"))
 
 
-@app.route('/api/v1/sprint/{dynamic}', methods=['GET'])
-async def api(request):
+@app.route('/api/v1/sprint/raw/{dynamic}', methods=['GET'])
+async def raw_sprint(request):
     async with pool as connection:
         return JSONResponse(await connection.get("sprint.json"))
 
+
+# raw scenario POST
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/{dynamic}/task', methods=['POST'])
+async def raw_create_task(request):
+    async with pool as connection:
+        return JSONResponse(await connection.get("create-task.json"))
