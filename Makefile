@@ -52,9 +52,6 @@ benchmark-framework-setup:
 	@docker build -f $(CURDIR)/frameworks/Dockerfile -t benchmarks:$(FRAMEWORK) $(CURDIR)/frameworks/$(FRAMEWORK)
 	@docker run --rm -d --network bench \
 			--sysctl net.core.somaxconn=4096 \
-			--sysctl net.ipv4.vs.conntrack=0 \
-			--sysctl net.ipv4.vs.expire_nodest_conn=1 \
-			--sysctl net.ipv4.vs.conn_reuse_mode=0 \
 			-v `dirname $(CURDIR)`/squall:/squall \
 			-v $(CURDIR)/dummy:/app/dummy \
 			-v $(CURDIR)/fixtures:/app/fixtures \
@@ -85,9 +82,6 @@ benchmark-framework-scenario:
 			-v $(CURDIR)/results:/results \
 			-v $(CURDIR)/wrk:/scripts \
 			--sysctl net.core.somaxconn=4096 \
-			--sysctl net.ipv4.vs.conntrack=0 \
-			--sysctl net.ipv4.vs.expire_nodest_conn=1 \
-			--sysctl net.ipv4.vs.conn_reuse_mode=0 \
 			czerasz/wrk-json \
 			wrk http://benchmark:8080 -d$(DURATION) -t$(THREADS) -c$(CONCURRENT) -s /scripts/process.lua
 	@echo "\nFinish [$(FRAMEWORK) $(SCENARIO)]\n"
