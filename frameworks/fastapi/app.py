@@ -99,18 +99,21 @@ async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody
 # ------------------------------------------------
 @app.patch("/api/v1/board/raw/{dynamic}/task", status_code=204)
 async def raw_update_task(dynamic: int):
-    return
+    async with pool as connection:
+        return None
 
 
 # dataclasses scenario PATCH
 # ------------------------------------------------
 @app.patch("/api/v1/board/dataclasses/{dynamic}/task", status_code=204)
 async def dataclasses_update_task(dynamic: int, data: DataClassesCreateTaskRequestBody):
-    return
+    async with pool as connection:
+        return None
 
 
 # pydantic scenario PATCH
 # ------------------------------------------------
 @app.patch("/api/v1/board/pydantic/{dynamic}/task", status_code=204)
 async def pydantic_update_task(dynamic: int, data: PydanticCreateTaskRequestBody):
-    return
+    async with pool as connection:
+        return None
