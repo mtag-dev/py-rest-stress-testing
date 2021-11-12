@@ -8,6 +8,8 @@ from schema_dataclasses import CreateTaskResponse as DataClassesCreateTaskRespon
 
 from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
 from schema_pydantic import SprintResponse as PydanticSprintResponse
+from schema_pydantic import CreateTaskRequestBody as PydanticCreateTaskRequestBody
+from schema_pydantic import CreateTaskResponse as PydanticCreateTaskResponse
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -81,5 +83,13 @@ async def raw_create_task(dynamic: int):
 # ------------------------------------------------
 @app.post("/api/v1/board/dataclasses/{dynamic}/task", response_model=DataClassesCreateTaskResponse)
 async def dataclasses_create_task(dynamic: int, data: DataClassesCreateTaskRequestBody):
+    async with pool as connection:
+        return await connection.get("create-task.json")
+
+
+# pydantic scenario POST
+# ------------------------------------------------
+@app.post("/api/v1/board/pydantic/{dynamic}/task", response_model=PydanticCreateTaskResponse)
+async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody):
     async with pool as connection:
         return await connection.get("create-task.json")

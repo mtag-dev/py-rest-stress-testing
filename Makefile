@@ -135,6 +135,11 @@ ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
 		SCENARIO=dataclasses \
 		FILENAME=/results/create-task-dataclasses.csv \
 		FIXTURE=/fixtures/create-task.json
+## ========== benchmark POST pydantic ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=pydantic \
+		FILENAME=/results/create-task-pydantic.csv \
+		FIXTURE=/fixtures/create-task.json
 endif
 	@make benchmark-framework-teardown
 

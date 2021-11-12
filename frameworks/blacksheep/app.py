@@ -12,6 +12,8 @@ from schema_dataclasses import CreateTaskResponse as DataClassesCreateTaskRespon
 
 from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
 from schema_pydantic import SprintResponse as PydanticSprintResponse
+from schema_pydantic import CreateTaskRequestBody as PydanticCreateTaskRequestBody
+from schema_pydantic import CreateTaskResponse as PydanticCreateTaskResponse
 
 from dummy.pool import Pool, Connection
 
@@ -99,3 +101,11 @@ async def raw_create_task(request):
 async def dataclasses_create_task(data: FromJSON[DataClassesCreateTaskRequestBody]) -> DataClassesCreateTaskResponse:
     async with pool as connection:
         return DataClassesCreateTaskResponse(**(await connection.get("create-task.json")))
+
+
+# pydantic scenario POST
+# ------------------------------------------------
+@app.route('/api/v1/board/pydantic/{dynamic}/task', methods=['POST'])
+async def pydantic_create_task(data: FromJSON[PydanticCreateTaskRequestBody]) -> PydanticCreateTaskResponse:
+    async with pool as connection:
+        return PydanticCreateTaskResponse(**(await connection.get("create-task.json")))

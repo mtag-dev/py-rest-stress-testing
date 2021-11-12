@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 from pydantic import BaseModel, Field
 
 ## - - - - - - -
@@ -52,3 +52,63 @@ class Issue(BaseModel):
 class SprintResponse(BaseModel):
     sprint: Sprint
     issues: List[Issue]
+
+
+## - - - - - - -
+## create-task.json
+## - - - - - - -
+
+class CreateTaskRequestBody(BaseModel):
+    author: str
+    assigned: str
+    summary: str
+    project: str
+    sprint: str
+    sprint: str
+    labels: List[str]
+    issue_type: str
+    components: List[str]
+    description: str
+    priority: str
+
+
+class CreateTaskPerson(BaseModel):
+    id: str
+    email: str
+    name: str
+    picture: str
+    is_active: bool
+
+
+class CreateTaskProject(BaseModel):
+    id: str
+    name: str
+
+
+class CreateTaskStatus(BaseModel):
+    id: str
+    name: str
+
+
+class CreateTaskActivity(BaseModel):
+    user_id: str
+    action: str
+    created_at: str
+    details: Union[CreateTaskPerson, CreateTaskStatus] = None
+
+
+class CreateTaskResponse(BaseModel):
+    author: CreateTaskPerson
+    assigned: CreateTaskPerson
+    summary: str
+    project: CreateTaskProject
+    sprint: str
+    labels: List[str]
+    issue_type: str
+    components: List[str]
+    description: str
+    priority: str
+    status: CreateTaskStatus
+    activity: List[CreateTaskActivity]
+    created_at: str
+    modified_at: str

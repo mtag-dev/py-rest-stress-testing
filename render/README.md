@@ -53,7 +53,7 @@ For now, it is only issue tracker as example
     * [GET: Sprint board](#sprint-dataclass)
 * [JSON response using Pydantic schema](#json-response-using-pydantic-schema)
     * [GET: User info](#userinfo-pydantic)
-    * TODO: [POST: Create issue](#create-pydantic)
+    * [POST: Create issue](#create-pydantic)
     * TODO: [PATCH: Update issue](#update-pydantic)
     * [GET: Sprint board](#sprint-pydantic)
 
@@ -254,6 +254,24 @@ Sorted by max req/s
 
 </details>
 
+<h3 id="create-task-pydantic"> Create task (POST) </h3>
+
+{% set chart_data = '{type:"bar",data:{labels:["' + res_create_task_pydantic|join("\",\"", attribute="name") + '"],datasets:[{label:"req/s",data:[' + res_create_task_pydantic|join(",", attribute="req") + ']}]}}' %}
+
+<img src='https://quickchart.io/chart?width=800&height=400&c={{ chart_data|urlencode }}' />
+
+<details open>
+<summary> Create task object using default payload and return created object using pydantic, no extra validation. </summary>
+
+Sorted by max req/s
+
+| Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
+| --------- | -----------: | ---------------: | ---------------: | ---------------: |
+{% for res in res_create_task_pydantic -%}
+| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+{% endfor %}
+
+</details>
 
 
 ## Conclusion
