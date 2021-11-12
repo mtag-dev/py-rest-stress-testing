@@ -1,0 +1,21 @@
+{
+    "method": "PATCH",
+    "request": {
+      "path": "/api/v1/board/${scenario}/${dynamic}/task",
+      "headers": {
+        "content-type": "application/json"
+      },
+      "payload": {
+        "author": "some-author-user-id",
+        "assigned": "some-assigned-user-id",
+        "summary": "My first task",
+        "project": "super-project-id",
+        "sprint": "sprint-8-id",
+        "labels": ["UX"],
+        "issue_type": "task",
+        "components": ["dashboard", "kpi-telemetry"],
+        "description": "Very informative issue description",
+        "priority": "high"
+      }
+    }
+  }

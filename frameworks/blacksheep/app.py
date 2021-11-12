@@ -1,7 +1,7 @@
 from pydantic.dataclasses import dataclass as pydataclass
 
 from blacksheep import Application
-from blacksheep.server.responses import html, json
+from blacksheep.server.responses import html, json, no_content
 from blacksheep.server.bindings import FromJSON
 
 
@@ -92,7 +92,7 @@ async def get_userinfo(request) -> PydanticSprintResponse:
 @app.route('/api/v1/board/raw/{dynamic}/task', methods=['POST'])
 async def raw_create_task(request):
     async with pool as connection:
-        return json(await connection.get("userinfo.json"))
+        return json(await connection.get("create-task.json"))
 
 
 # dataclasses scenario POST
@@ -109,3 +109,24 @@ async def dataclasses_create_task(data: FromJSON[DataClassesCreateTaskRequestBod
 async def pydantic_create_task(data: FromJSON[PydanticCreateTaskRequestBody]) -> PydanticCreateTaskResponse:
     async with pool as connection:
         return PydanticCreateTaskResponse(**(await connection.get("create-task.json")))
+
+
+# raw scenario PATCH
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/{dynamic}/task', methods=['PATCH'])
+async def raw_update_task(request):
+    return no_content
+
+
+# dataclasses scenario PATCH
+# ------------------------------------------------
+@app.route('/api/v1/board/dataclasses/{dynamic}/task', methods=['PATCH'])
+async def dataclasses_update_task(data: FromJSON[DataClassesCreateTaskRequestBody]) -> None:
+    return no_content
+
+
+# pydantic scenario PATCH
+# ------------------------------------------------
+@app.route('/api/v1/board/pydantic/{dynamic}/task', methods=['PATCH'])
+async def pydantic_update_task(data: FromJSON[PydanticCreateTaskRequestBody]) -> None:
+    return no_content

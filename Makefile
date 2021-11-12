@@ -141,6 +141,25 @@ ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
 		FILENAME=/results/create-task-pydantic.csv \
 		FIXTURE=/fixtures/create-task.json
 endif
+
+## ========== benchmark PATCH raw ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=raw \
+		FILENAME=/results/update-task-raw.csv \
+		FIXTURE=/fixtures/update-task.json
+
+ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
+## ========== benchmark PATCH dataclasses ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=dataclasses \
+		FILENAME=/results/update-task-dataclasses.csv \
+		FIXTURE=/fixtures/update-task.json
+## ========== benchmark PATCH pydantic ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=pydantic \
+		FILENAME=/results/update-task-pydantic.csv \
+		FIXTURE=/fixtures/update-task.json
+endif
 	@make benchmark-framework-teardown
 
 

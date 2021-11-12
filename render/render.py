@@ -30,6 +30,9 @@ results = {
     "res_create_task_raw": Path(BASEDIR / 'results/create-task-raw.csv'),
     "res_create_task_dataclass": Path(BASEDIR / 'results/create-task-dataclasses.csv'),
     "res_create_task_pydantic": Path(BASEDIR / 'results/create-task-pydantic.csv'),
+    "res_update_task_raw": Path(BASEDIR / 'results/update-task-raw.csv'),
+    "res_update_task_dataclass": Path(BASEDIR / 'results/update-task-dataclasses.csv'),
+    "res_update_task_pydantic": Path(BASEDIR / 'results/update-task-pydantic.csv'),
 
 }
 
