@@ -1,5 +1,5 @@
 from sanic import Sanic
-from sanic.response import html, json
+from sanic.response import html, json, text
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -38,3 +38,11 @@ async def raw_sprint(request, dynamic):
 async def raw_create_task(request, dynamic):
     async with pool as connection:
         return json(await connection.get("create-task.json"))
+
+
+# raw scenario PUT
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/<dynamic:int>/task', methods=['PUT'])
+async def raw_update_task(request, dynamic):
+    async with pool as connection:
+        return text('')

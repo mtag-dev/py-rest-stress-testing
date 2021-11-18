@@ -123,3 +123,11 @@ class CreateTaskResponse:
     activity: List[CreateTaskActivity]
     created_at: str
     modified_at: str
+
+
+## - - - - - - -
+## update-task.json
+## - - - - - - -
+@dataclass
+class UpdateTaskRequestBody(CreateTaskRequestBody):
+    pass

@@ -1,10 +1,13 @@
 import os
+import sys
 import random
 from importlib import import_module
 
 import pytest
 
 from dummy.pool import Pool, Connection
+
+sys.path.append(os.path.join(os.getcwd(), "frameworks"))
 
 
 @pytest.fixture(scope='function', params=[
@@ -27,7 +30,7 @@ def asgi(request):
 
 async def test_userinfo(client, fixtures):
     rand = random.randint(10, 99)
-    url = f"/api/v1/userinfo/{rand}"
+    url = f"/api/v1/userinfo/raw/{rand}"
     res = await client.get(url)
     assert res.status_code == 200
     assert 'application/json' in res.headers.get('content-type', "")
@@ -37,12 +40,33 @@ async def test_userinfo(client, fixtures):
 
 async def test_sprint(client, fixtures):
     rand = random.randint(10, 99)
-    url = f"/api/v1/sprint/{rand}"
+    url = f"/api/v1/sprint/raw/{rand}"
     res = await client.get(url)
     assert res.status_code == 200
     assert 'application/json' in res.headers.get('content-type', "")
     json = await res.json()
     assert json == fixtures['sprint.json']['response']['payload']
+
+
+async def test_create_task(client, fixtures):
+    rand = random.randint(10, 99)
+    url = f"/api/v1/board/raw/{rand}/task"
+    res = await client.post(
+        url, data=fixtures['create-task.json']['request']['payload'])
+    assert res.status_code == 200
+    assert 'application/json' in res.headers.get('content-type', "")
+    json = await res.json()
+    assert json == fixtures['create-task.json']['response']['payload']
+
+
+async def test_update_task(client, fixtures):
+    rand = random.randint(10, 99)
+    url = f"/api/v1/board/raw/{rand}/task"
+    res = await client.put(
+        url, data=fixtures['update-task.json']['request']['payload'])
+    assert res.status_code == 200
+    data = res.content
+    assert data == b''
 
 
 async def test_routing(client):

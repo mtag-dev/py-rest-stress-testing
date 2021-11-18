@@ -112,3 +112,11 @@ class CreateTaskResponse(BaseModel):
     activity: List[CreateTaskActivity]
     created_at: str
     modified_at: str
+
+
+## - - - - - - -
+## update-task.json
+## - - - - - - -
+
+class UpdateTaskRequestBody(CreateTaskRequestBody):
+    pass

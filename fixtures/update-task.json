@@ -1,5 +1,5 @@
 {
-    "method": "PATCH",
+    "method": "PUT",
     "request": {
       "path": "/api/v1/board/${scenario}/${dynamic}/task",
       "headers": {

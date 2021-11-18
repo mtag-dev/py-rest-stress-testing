@@ -1,21 +1,23 @@
 from pydantic.dataclasses import dataclass as pydataclass
 
 from blacksheep import Application
-from blacksheep.server.responses import html, json, no_content
+from blacksheep.server.responses import html, json, text
 from blacksheep.server.bindings import FromJSON
-
 
 from schema_dataclasses import UserInfoResponse as DataClassesUserInfoResponse
 from schema_dataclasses import SprintResponse as DataClassesSprintResponse
 from schema_dataclasses import CreateTaskRequestBody as DataClassesCreateTaskRequestBody
 from schema_dataclasses import CreateTaskResponse as DataClassesCreateTaskResponse
+from schema_dataclasses import UpdateTaskRequestBody as DataClassesUpdateTaskRequestBody
 
 from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
 from schema_pydantic import SprintResponse as PydanticSprintResponse
 from schema_pydantic import CreateTaskRequestBody as PydanticCreateTaskRequestBody
 from schema_pydantic import CreateTaskResponse as PydanticCreateTaskResponse
+from schema_pydantic import UpdateTaskRequestBody as PydanticUpdateTaskRequestBody
 
 from dummy.pool import Pool, Connection
+
 
 pool = Pool(data_getter=Connection())
 
@@ -29,6 +31,7 @@ DataClassesUserInfoResponse = pydataclass(DataClassesUserInfoResponse)
 DataClassesSprintResponse = pydataclass(DataClassesSprintResponse)
 DataClassesCreateTaskRequestBody = pydataclass(DataClassesCreateTaskRequestBody)
 DataClassesCreateTaskResponse = pydataclass(DataClassesCreateTaskResponse)
+DataClassesUpdateTaskRequestBody = pydataclass(DataClassesUpdateTaskRequestBody)
 
 
 app = Application()
@@ -111,22 +114,25 @@ async def pydantic_create_task(data: FromJSON[PydanticCreateTaskRequestBody]) ->
         return PydanticCreateTaskResponse(**(await connection.get("create-task.json")))
 
 
-# raw scenario PATCH
+# raw scenario PUT
 # ------------------------------------------------
-@app.route('/api/v1/board/raw/{dynamic}/task', methods=['PATCH'])
+@app.route('/api/v1/board/raw/{dynamic}/task', methods=['PUT'])
 async def raw_update_task(request):
-    return no_content
+    async with pool as connection:
+        return text('')
 
 
-# dataclasses scenario PATCH
+# dataclasses scenario PUT
 # ------------------------------------------------
-@app.route('/api/v1/board/dataclasses/{dynamic}/task', methods=['PATCH'])
-async def dataclasses_update_task(data: FromJSON[DataClassesCreateTaskRequestBody]) -> None:
-    return no_content
+@app.route('/api/v1/board/dataclasses/{dynamic}/task', methods=['PUT'])
+async def dataclasses_update_task(data: FromJSON[DataClassesUpdateTaskRequestBody]):
+    async with pool as connection:
+        return text('')
 
 
-# pydantic scenario PATCH
+# pydantic scenario PUT
 # ------------------------------------------------
-@app.route('/api/v1/board/pydantic/{dynamic}/task', methods=['PATCH'])
-async def pydantic_update_task(data: FromJSON[PydanticCreateTaskRequestBody]) -> None:
-    return no_content
+@app.route('/api/v1/board/pydantic/{dynamic}/task', methods=['PUT'])
+async def pydantic_update_task(data: FromJSON[PydanticUpdateTaskRequestBody]):
+    async with pool as connection:
+        return text('')
