@@ -119,6 +119,7 @@ async def pydantic_create_task(data: FromJSON[PydanticCreateTaskRequestBody]) ->
 @app.route('/api/v1/board/raw/{dynamic}/task', methods=['PUT'])
 async def raw_update_task(request):
     async with pool as connection:
+        await connection.get("update-task.json")
         return text('')
 
 
@@ -127,6 +128,7 @@ async def raw_update_task(request):
 @app.route('/api/v1/board/dataclasses/{dynamic}/task', methods=['PUT'])
 async def dataclasses_update_task(data: FromJSON[DataClassesUpdateTaskRequestBody]):
     async with pool as connection:
+        await connection.get("update-task.json")
         return text('')
 
 
@@ -135,4 +137,5 @@ async def dataclasses_update_task(data: FromJSON[DataClassesUpdateTaskRequestBod
 @app.route('/api/v1/board/pydantic/{dynamic}/task', methods=['PUT'])
 async def pydantic_update_task(data: FromJSON[PydanticUpdateTaskRequestBody]):
     async with pool as connection:
+        await connection.get("update-task.json")
         return text('')

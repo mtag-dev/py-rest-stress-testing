@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, Response, PlainTextResponse
+from fastapi.responses import HTMLResponse
 
 from schema_dataclasses import UserInfoResponse as DataClassesUserInfoResponse
 from schema_dataclasses import SprintResponse as DataClassesSprintResponse
@@ -105,7 +105,8 @@ async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody
 @app.put("/api/v1/board/raw/{dynamic}/task")
 async def raw_update_task(dynamic: int):
     async with pool as connection:
-        return PlainTextResponse(content=b'')
+        await connection.get("update-task.json")
+        return b''
 
 
 # dataclasses scenario PUT
@@ -113,7 +114,8 @@ async def raw_update_task(dynamic: int):
 @app.put("/api/v1/board/dataclasses/{dynamic}/task")
 async def dataclasses_update_task(dynamic: int, data: DataClassesUpdateTaskRequestBody):
     async with pool as connection:
-        return PlainTextResponse(content=b'')
+        await connection.get("update-task.json")
+        return b''
 
 
 # pydantic scenario PUT
@@ -121,4 +123,5 @@ async def dataclasses_update_task(dynamic: int, data: DataClassesUpdateTaskReque
 @app.put("/api/v1/board/pydantic/{dynamic}/task")
 async def pydantic_update_task(dynamic: int, data: PydanticUpdateTaskRequestBody):
     async with pool as connection:
-        return PlainTextResponse(content=b'')
+        await connection.get("update-task.json")
+        return b''
