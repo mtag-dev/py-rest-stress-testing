@@ -1,3 +1,4 @@
+import re
 from baize.asgi import (
     Router,
     Response,
@@ -5,6 +6,7 @@ from baize.asgi import (
     JSONResponse,
     Request,
     request_response,
+    PlainTextResponse
 )
 
 from dummy.pool import Pool, Connection
@@ -34,16 +36,21 @@ async def raw_sprint(request: Request) -> Response:
         return JSONResponse(await connection.get("sprint.json"))
 
 
-# raw scenario POST
+# raw scenario POST and PUT
 # ------------------------------------------------
 @request_response
-async def raw_create_task(request: Request) -> Response:
-    async with pool as connection:
-        return JSONResponse(await connection.get("create-task.json"))
+async def raw_task(request: Request) -> Response:
+    if request.method == "POST":
+        async with pool as connection:
+            return JSONResponse(await connection.get("create-task.json"))
+    if request.method == "PUT":
+        async with pool as connection:
+            return PlainTextResponse(b"")
+
 
 app = Router(
     *routes,
     ("/api/v1/userinfo/raw/{dynamic}", raw_userinfo),
     ("/api/v1/sprint/raw/{dynamic}", raw_sprint),
-    ("/api/v1/board/raw/{dynamic}/task", raw_create_task),
+    ("/api/v1/board/raw/{dynamic}/task", raw_task),
 )

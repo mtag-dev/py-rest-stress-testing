@@ -1,0 +1,32 @@
+[2021-11-15 20:22:16,766] ERROR in handlers: Application exception:
+Traceback (most recent call last):
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/asgi/handlers.py", line 293, in dynamic_handler
+    http = await self.router.dispatch(ctx.request, ctx.response)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/routing/router.py", line 249, in dispatch
+    return await match.dispatch(reqargs, response)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/routing/dispatchers.py", line 44, in dispatch
+    return self.response_builder(await self.f(**reqargs), response)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/pipeline.py", line 369, in flow
+    return await pipe_method(f, **kwargs)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/tools/service.py", line 28, in pipe_request
+    return self.encoder(await next_pipe(**kwargs))
+  File "/home/svitlana/YAMP/MTAG/py-rest-stress-testing/frameworks/emmett/app.py", line 72, in raw_update_task
+    return response(status=204)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/_internal.py", line 71, in __call__
+    return self._get_robj()(*args, **kwargs)
+TypeError: 'Response' object is not callable
+[2021-11-15 20:23:23,401] ERROR in handlers: Application exception:
+Traceback (most recent call last):
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/asgi/handlers.py", line 293, in dynamic_handler
+    http = await self.router.dispatch(ctx.request, ctx.response)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/routing/router.py", line 249, in dispatch
+    return await match.dispatch(reqargs, response)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/routing/dispatchers.py", line 44, in dispatch
+    return self.response_builder(await self.f(**reqargs), response)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/pipeline.py", line 369, in flow
+    return await pipe_method(f, **kwargs)
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/tools/service.py", line 28, in pipe_request
+    return self.encoder(await next_pipe(**kwargs))
+  File "/home/svitlana/YAMP/MTAG/.venvs/testing/lib/python3.8/site-packages/emmett/serializers.py", line 55, in _json_default
+    raise TypeError
+TypeError

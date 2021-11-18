@@ -1,4 +1,4 @@
-from emmett import App
+from emmett import App, response
 from emmett.tools import service
 
 from dummy.pool import Pool, Connection
@@ -62,3 +62,11 @@ async def raw_create_task(dynamic):
     async with pool as connection:
         return await connection.get("create-task.json")
 
+
+# raw scenario PUT
+# ------------------------------------------------
+@app.route("/api/v1/board/raw/<int:dynamic>/task", methods=["put"])
+@service.json
+async def raw_update_task(dynamic):
+    async with pool as connection:
+        return ""

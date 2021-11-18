@@ -1,3 +1,4 @@
+import falcon
 from falcon.asgi import App
 from json import dumps
 
@@ -19,14 +20,19 @@ class raw_sprint:
         async with pool as connection:
             response.text = dumps(await connection.get("sprint.json"))
 
-# raw scenario POST
-# ------------------------------------------------
 
-
-class raw_create_task:
+class raw_task:
+    # raw scenario POST
+    # ------------------------------------------------
     async def on_post(self, request, response, dynamic):
         async with pool as connection:
             response.text = dumps(await connection.get("create-task.json"))
+
+    # raw scenario PUT
+    # ------------------------------------------------
+    async def on_put(self, request, response, dynamic):
+        async with pool as connection:
+            response.text = b''
 
 
 app = App()
@@ -55,4 +61,4 @@ for n in range(10):
 # ----------------------------------------
 app.add_route('/api/v1/userinfo/raw/{dynamic:int}', raw_userinfo())
 app.add_route('/api/v1/sprint/raw/{dynamic:int}', raw_sprint())
-app.add_route('/api/v1/board/raw/{dynamic:int}/task', raw_create_task())
+app.add_route('/api/v1/board/raw/{dynamic:int}/task', raw_task())

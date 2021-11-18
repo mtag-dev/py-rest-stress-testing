@@ -1,5 +1,5 @@
 from starlette.applications import Starlette
-from starlette.responses import HTMLResponse, JSONResponse
+from starlette.responses import HTMLResponse, JSONResponse, Response
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -36,3 +36,11 @@ async def raw_sprint(request):
 async def raw_create_task(request):
     async with pool as connection:
         return JSONResponse(await connection.get("create-task.json"))
+
+
+# raw scenario PUT
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/{dynamic}/task', methods=['PUT'])
+async def raw_update_task(request):
+    async with pool as connection:
+        return Response(b'')

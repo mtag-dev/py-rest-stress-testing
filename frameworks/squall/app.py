@@ -1,15 +1,18 @@
 from squall import Squall
-from squall.responses import HTMLResponse
+from squall.responses import HTMLResponse, PlainTextResponse
 
 from schema_dataclasses import UserInfoResponse as DataClassesUserInfoResponse
 from schema_dataclasses import SprintResponse as DataClassesSprintResponse
 from schema_dataclasses import CreateTaskRequestBody as DataClassesCreateTaskRequestBody
 from schema_dataclasses import CreateTaskResponse as DataClassesCreateTaskResponse
+from schema_dataclasses import UpdateTaskRequestBody as DataClassesUpdateTaskRequestBody
 
 from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
 from schema_pydantic import SprintResponse as PydanticSprintResponse
 from schema_pydantic import CreateTaskRequestBody as PydanticCreateTaskRequestBody
 from schema_pydantic import CreateTaskResponse as PydanticCreateTaskResponse
+from schema_pydantic import UpdateTaskRequestBody as PydanticUpdateTaskRequestBody
+
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -95,25 +98,25 @@ async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody
         return await connection.get("create-task.json")
 
 
-# raw scenario PATCH
+# raw scenario PUT
 # ------------------------------------------------
-@app.patch("/api/v1/board/raw/{dynamic}/task", status_code=204)
+@app.put("/api/v1/board/raw/{dynamic}/task")
 async def raw_update_task(dynamic: int):
     async with pool as connection:
-        return None
+        return PlainTextResponse(content=b'')
 
 
-# dataclasses scenario PATCH
+# dataclasses scenario PUT
 # ------------------------------------------------
-@app.patch("/api/v1/board/dataclasses/{dynamic}/task", status_code=204)
-async def dataclasses_update_task(dynamic: int, data: DataClassesCreateTaskRequestBody):
+@app.put("/api/v1/board/dataclasses/{dynamic}/task")
+async def dataclasses_update_task(dynamic: int, data: DataClassesUpdateTaskRequestBody):
     async with pool as connection:
-        return None
+        return PlainTextResponse(content=b'')
 
 
-# pydantic scenario PATCH
+# pydantic scenario PUT
 # ------------------------------------------------
-@app.patch("/api/v1/board/pydantic/{dynamic}/task", status_code=204)
-async def pydantic_update_task(dynamic: int, data: PydanticCreateTaskRequestBody):
+@app.put("/api/v1/board/pydantic/{dynamic}/task")
+async def pydantic_update_task(dynamic: int, data: PydanticUpdateTaskRequestBody):
     async with pool as connection:
-        return None
+        return PlainTextResponse(content=b'')
