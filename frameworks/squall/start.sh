@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 until $(python -c "import squall" 2> /dev/null); do
     echo Wait for squall install

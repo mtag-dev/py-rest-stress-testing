@@ -62,9 +62,9 @@ benchmark-framework-setup:
 
     ifeq ($(FRAMEWORK), squall)
 		docker exec benchmark pip install /squall
-		@sleep 2
+		@sleep 5
     endif
-	@sleep 2
+	@sleep 5
 	@echo "\nSetup finished [$(FRAMEWORK)]\n"
 
 .PHONY: benchmark-framework-teardown
