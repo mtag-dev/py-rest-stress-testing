@@ -1,6 +1,7 @@
 from __future__ import annotations
+from typing import Dict, Any
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
 
 from schema_dataclasses import UserInfoResponse as DataClassesUserInfoResponse
@@ -79,7 +80,7 @@ async def pydantic_sprint(dynamic: int):
 # raw scenario POST
 # ------------------------------------------------
 @app.post("/api/v1/board/raw/{dynamic}/task")
-async def raw_create_task(dynamic: int):
+async def raw_create_task(dynamic: int, data: Dict[str, Any]):
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -87,7 +88,7 @@ async def raw_create_task(dynamic: int):
 # dataclasses scenario POST
 # ------------------------------------------------
 @app.post("/api/v1/board/dataclasses/{dynamic}/task", response_model=DataClassesCreateTaskResponse)
-async def dataclasses_create_task(dynamic: int, data: DataClassesCreateTaskRequestBody):
+async def dataclasses_create_task(dynamic: int, data: DataClassesCreateTaskRequestBody = Body(...)):
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -103,7 +104,7 @@ async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody
 # raw scenario PUT
 # ------------------------------------------------
 @app.put("/api/v1/board/raw/{dynamic}/task")
-async def raw_update_task(dynamic: int):
+async def raw_update_task(dynamic: int, data: Dict[str, Any]):
     async with pool as connection:
         await connection.get("update-task.json")
         return b''
@@ -112,7 +113,7 @@ async def raw_update_task(dynamic: int):
 # dataclasses scenario PUT
 # ------------------------------------------------
 @app.put("/api/v1/board/dataclasses/{dynamic}/task")
-async def dataclasses_update_task(dynamic: int, data: DataClassesUpdateTaskRequestBody):
+async def dataclasses_update_task(dynamic: int, data: DataClassesUpdateTaskRequestBody = Body(...)):
     async with pool as connection:
         await connection.get("update-task.json")
         return b''

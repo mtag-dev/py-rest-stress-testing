@@ -43,7 +43,8 @@ async def test_sprint(aiohttp_client, fixtures):
 async def test_create_task(aiohttp_client, fixtures):
     rand = random.randint(10, 99)
     url = f"/api/v1/board/raw/{rand}/task"
-    res = await aiohttp_client.post(url)
+    res = await aiohttp_client.post(
+        url, json=fixtures['create-task.json']['request'])
     assert res.status == 200
     assert 'application/json' in res.headers.get('content-type', "")
     json = await res.json()
@@ -53,7 +54,8 @@ async def test_create_task(aiohttp_client, fixtures):
 async def test_update_task(aiohttp_client, fixtures):
     rand = random.randint(10, 99)
     url = f"/api/v1/board/raw/{rand}/task"
-    res = await aiohttp_client.put(url)
+    res = await aiohttp_client.put(
+        url, json=fixtures['update-task.json']['request'])
     assert res.status == 200
     # assert 'application/json' in res.headers.get('content-type', "")
     data = await res.text()

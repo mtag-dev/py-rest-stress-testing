@@ -1,4 +1,4 @@
-from emmett import App, response
+from emmett import App, request
 from emmett.tools import service
 
 from dummy.pool import Pool, Connection
@@ -59,6 +59,7 @@ async def raw_sprint(dynamic):
 @app.route("/api/v1/board/raw/<int:dynamic>/task", methods=["post"])
 @service.json
 async def raw_create_task(dynamic):
+    await request.body
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -68,5 +69,7 @@ async def raw_create_task(dynamic):
 @app.route("/api/v1/board/raw/<int:dynamic>/task", methods=["put"])
 @service.json
 async def raw_update_task(dynamic):
+    await request.body
     async with pool as connection:
+        await connection.get("update-task.json")
         return ""

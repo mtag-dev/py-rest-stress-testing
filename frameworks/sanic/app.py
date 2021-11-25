@@ -36,6 +36,7 @@ async def raw_sprint(request, dynamic):
 # ------------------------------------------------
 @app.route('/api/v1/board/raw/<dynamic:int>/task', methods=['POST'])
 async def raw_create_task(request, dynamic):
+    request.json
     async with pool as connection:
         return json(await connection.get("create-task.json"))
 
@@ -44,5 +45,7 @@ async def raw_create_task(request, dynamic):
 # ------------------------------------------------
 @app.route('/api/v1/board/raw/<dynamic:int>/task', methods=['PUT'])
 async def raw_update_task(request, dynamic):
+    request.json
     async with pool as connection:
+        await connection.get("update-task.json")
         return text('')

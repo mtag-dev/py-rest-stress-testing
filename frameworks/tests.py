@@ -52,7 +52,7 @@ async def test_create_task(client, fixtures):
     rand = random.randint(10, 99)
     url = f"/api/v1/board/raw/{rand}/task"
     res = await client.post(
-        url, data=fixtures['create-task.json']['request']['payload'])
+        url, json=fixtures['create-task.json']['request']['payload'])
     assert res.status_code == 200
     assert 'application/json' in res.headers.get('content-type', "")
     json = await res.json()
@@ -63,7 +63,7 @@ async def test_update_task(client, fixtures):
     rand = random.randint(10, 99)
     url = f"/api/v1/board/raw/{rand}/task"
     res = await client.put(
-        url, data=fixtures['update-task.json']['request']['payload'])
+        url, json=fixtures['update-task.json']['request']['payload'])
     assert res.status_code == 200
     data = res.content
     assert data == b''

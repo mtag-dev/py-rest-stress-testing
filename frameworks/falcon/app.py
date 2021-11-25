@@ -25,13 +25,16 @@ class raw_task:
     # raw scenario POST
     # ------------------------------------------------
     async def on_post(self, request, response, dynamic):
+        await request.bounded_stream.read()
         async with pool as connection:
             response.text = dumps(await connection.get("create-task.json"))
 
     # raw scenario PUT
     # ------------------------------------------------
     async def on_put(self, request, response, dynamic):
+        await request.bounded_stream.read()
         async with pool as connection:
+            await connection.get("update-task.json")
             response.text = b''
 
 

@@ -40,11 +40,13 @@ async def raw_sprint(request: Request) -> Response:
 # ------------------------------------------------
 @request_response
 async def raw_task(request: Request) -> Response:
+    await request.json
     if request.method == "POST":
         async with pool as connection:
             return JSONResponse(await connection.get("create-task.json"))
     if request.method == "PUT":
         async with pool as connection:
+            await connection.get("update-task.json")
             return PlainTextResponse(b"")
 
 

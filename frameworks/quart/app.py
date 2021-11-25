@@ -1,5 +1,5 @@
 
-from quart import Quart, Response
+from quart import Quart, Response, request
 
 from dummy.pool import Pool, Connection
 pool = Pool(data_getter=Connection())
@@ -37,6 +37,7 @@ async def raw_sprint(dynamic):
 # ------------------------------------------------
 @app.route('/api/v1/board/raw/<int:dynamic>/task', methods=['POST'])
 async def raw_create_task(dynamic):
+    await request.body
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -45,5 +46,7 @@ async def raw_create_task(dynamic):
 # ------------------------------------------------
 @app.route('/api/v1/board/raw/<int:dynamic>/task', methods=['PUT'])
 async def raw_update_task(dynamic):
+    await request.body
     async with pool as connection:
+        await connection.get("update-task.json")
         return b''
