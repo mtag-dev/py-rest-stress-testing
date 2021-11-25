@@ -1,4 +1,4 @@
-from squall import Squall
+from squall import Squall, Body
 from squall.responses import HTMLResponse, PlainTextResponse
 
 from schema_dataclasses import UserInfoResponse as DataClassesUserInfoResponse
@@ -77,7 +77,8 @@ async def pydantic_sprint(dynamic: int):
 # raw scenario POST
 # ------------------------------------------------
 @app.post("/api/v1/board/raw/{dynamic}/task")
-async def raw_create_task(dynamic: int):
+async def raw_create_task(dynamic: int, body=Body(...)):
+    print(body)
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -101,7 +102,7 @@ async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody
 # raw scenario PUT
 # ------------------------------------------------
 @app.put("/api/v1/board/raw/{dynamic}/task")
-async def raw_update_task(dynamic: int):
+async def raw_update_task(dynamic: int, body=Body(...)):
     async with pool as connection:
         await connection.get("update-task.json")
         return ''

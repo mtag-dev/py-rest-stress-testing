@@ -94,6 +94,7 @@ async def get_userinfo(request) -> PydanticSprintResponse:
 # ------------------------------------------------
 @app.route('/api/v1/board/raw/{dynamic}/task', methods=['POST'])
 async def raw_create_task(request):
+    await request.json()
     async with pool as connection:
         return json(await connection.get("create-task.json"))
 
@@ -118,6 +119,7 @@ async def pydantic_create_task(data: FromJSON[PydanticCreateTaskRequestBody]) ->
 # ------------------------------------------------
 @app.route('/api/v1/board/raw/{dynamic}/task', methods=['PUT'])
 async def raw_update_task(request):
+    await request.json()
     async with pool as connection:
         await connection.get("update-task.json")
         return text('')
