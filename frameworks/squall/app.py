@@ -7,11 +7,11 @@ from schema_dataclasses import CreateTaskRequestBody as DataClassesCreateTaskReq
 from schema_dataclasses import CreateTaskResponse as DataClassesCreateTaskResponse
 from schema_dataclasses import UpdateTaskRequestBody as DataClassesUpdateTaskRequestBody
 
-from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
-from schema_pydantic import SprintResponse as PydanticSprintResponse
-from schema_pydantic import CreateTaskRequestBody as PydanticCreateTaskRequestBody
-from schema_pydantic import CreateTaskResponse as PydanticCreateTaskResponse
-from schema_pydantic import UpdateTaskRequestBody as PydanticUpdateTaskRequestBody
+# from schema_pydantic import UserInfoResponse as PydanticUserInfoResponse
+# from schema_pydantic import SprintResponse as PydanticSprintResponse
+# from schema_pydantic import CreateTaskRequestBody as PydanticCreateTaskRequestBody
+# from schema_pydantic import CreateTaskResponse as PydanticCreateTaskResponse
+# from schema_pydantic import UpdateTaskRequestBody as PydanticUpdateTaskRequestBody
 
 
 from dummy.pool import Pool, Connection
@@ -62,16 +62,16 @@ async def dataclasses_sprint(dynamic: int):
 
 # pydantic scenario GET
 # ------------------------------------------------
-@app.get("/api/v1/userinfo/pydantic/{dynamic}", response_model=PydanticUserInfoResponse)
-async def pydantic_userinfo(dynamic: int):
-    async with pool as connection:
-        return await connection.get("userinfo.json")
-
-
-@app.get("/api/v1/sprint/pydantic/{dynamic}", response_model=PydanticSprintResponse)
-async def pydantic_sprint(dynamic: int):
-    async with pool as connection:
-        return await connection.get("sprint.json")
+# @app.get("/api/v1/userinfo/pydantic/{dynamic}", response_model=PydanticUserInfoResponse)
+# async def pydantic_userinfo(dynamic: int):
+#     async with pool as connection:
+#         return await connection.get("userinfo.json")
+#
+#
+# @app.get("/api/v1/sprint/pydantic/{dynamic}", response_model=PydanticSprintResponse)
+# async def pydantic_sprint(dynamic: int):
+#     async with pool as connection:
+#         return await connection.get("sprint.json")
 
 
 # raw scenario POST
@@ -91,12 +91,12 @@ async def dataclasses_create_task(dynamic: int, data: DataClassesCreateTaskReque
         return await connection.get("create-task.json")
 
 
-# pydantic scenario POST
-# ------------------------------------------------
-@app.post("/api/v1/board/pydantic/{dynamic}/task", response_model=PydanticCreateTaskResponse)
-async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody):
-    async with pool as connection:
-        return await connection.get("create-task.json")
+# # pydantic scenario POST
+# # ------------------------------------------------
+# @app.post("/api/v1/board/pydantic/{dynamic}/task", response_model=PydanticCreateTaskResponse)
+# async def pydantic_create_task(dynamic: int, data: PydanticCreateTaskRequestBody):
+#     async with pool as connection:
+#         return await connection.get("create-task.json")
 
 
 # raw scenario PUT
@@ -117,10 +117,10 @@ async def dataclasses_update_task(dynamic: int, data: DataClassesUpdateTaskReque
         return ''
 
 
-# pydantic scenario PUT
-# ------------------------------------------------
-@app.put("/api/v1/board/pydantic/{dynamic}/task")
-async def pydantic_update_task(dynamic: int, data: PydanticUpdateTaskRequestBody):
-    async with pool as connection:
-        await connection.get("update-task.json")
-        return ''
+# # pydantic scenario PUT
+# # ------------------------------------------------
+# @app.put("/api/v1/board/pydantic/{dynamic}/task")
+# async def pydantic_update_task(dynamic: int, data: PydanticUpdateTaskRequestBody):
+#     async with pool as connection:
+#         await connection.get("update-task.json")
+#         return ''
