@@ -104,7 +104,7 @@ class CreateTaskActivity:
     user_id: str
     action: str
     created_at: str
-    details: Union[CreateTaskPerson, CreateTaskStatus] = None
+    details: Optional[Union[CreateTaskPerson, CreateTaskStatus]] = None
 
 
 @dataclass

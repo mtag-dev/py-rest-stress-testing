@@ -23,17 +23,12 @@ Result = namedtuple('Result', ['name', 'version', 'req', 'lt50', 'lt75', 'lt90',
 results = {
     "res_userinfo_raw": Path(BASEDIR / 'results/userinfo-raw.csv'),
     "res_userinfo_dataclass": Path(BASEDIR / 'results/userinfo-dataclasses.csv'),
-    "res_userinfo_pydantic": Path(BASEDIR / 'results/userinfo-pydantic.csv'),
     "res_sprint_raw": Path(BASEDIR / 'results/sprint-raw.csv'),
     "res_sprint_dataclass": Path(BASEDIR / 'results/sprint-dataclasses.csv'),
-    "res_sprint_pydantic": Path(BASEDIR / 'results/sprint-pydantic.csv'),
     "res_create_task_raw": Path(BASEDIR / 'results/create-task-raw.csv'),
     "res_create_task_dataclass": Path(BASEDIR / 'results/create-task-dataclasses.csv'),
-    "res_create_task_pydantic": Path(BASEDIR / 'results/create-task-pydantic.csv'),
     "res_update_task_raw": Path(BASEDIR / 'results/update-task-raw.csv'),
     "res_update_task_dataclass": Path(BASEDIR / 'results/update-task-dataclasses.csv'),
-    "res_update_task_pydantic": Path(BASEDIR / 'results/update-task-pydantic.csv'),
-
 }
 
 

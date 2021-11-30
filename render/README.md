@@ -41,21 +41,16 @@ For now, it is only issue tracker as example
 
 * [The Methodic](#the-methodic)
 * [The Results](#the-results-{{ now.strftime('%Y-%m-%d')  }})
-* [JSON response from primitives](#json-response-from-primitives)
+* [JSON response without schema](#json-response-from-primitives)
     * [GET: User info](#userinfo-raw)
     * [POST: Create task](#create-task-raw)
     * [PUT: Update task](#update-task-raw)
     * [GET: Sprint board](#sprint-raw)
-* [JSON response using Dataclasses schema](#json-response-using-dataclasses-schema)
+* [JSON response using schema](#json-response-using-dataclasses-schema)
     * [GET: User info](#userinfo-dataclass)
     * [POST: Create task](#create-task-dataclass)
     * [PUT: Update task](#update-task-dataclass)
     * [GET: Sprint board](#sprint-dataclass)
-* [JSON response using Pydantic schema](#json-response-using-pydantic-schema)
-    * [GET: User info](#userinfo-pydantic)
-    * [POST: Create task](#create-task-pydantic)
-    * [PUT: Update task](#update-task-pydantic)
-    * [GET: Sprint board](#sprint-pydantic)
 
 
 ## The Methodic
@@ -91,7 +86,7 @@ You can find test data [here](https://github.com/mtag-dev/py-rest-stress-testing
 
 ## The Results ({{ now.strftime('%Y-%m-%d') }})
 
-### JSON response from primitives
+### JSON response without schema
 
 <h3 id="userinfo-raw"> User info (GET) </h3>
 
@@ -171,7 +166,7 @@ Sorted by max req/s
 
 </details>
 
-### JSON response using Dataclasses schema
+### JSON response using schema
 
 <h3 id="userinfo-dataclass"> User info (GET) </h3>
 
@@ -246,85 +241,6 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_update_task_dataclass -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
-{% endfor %}
-
-</details>
-
-### JSON response using Pydantic schema
-
-<h3 id="userinfo-pydantic"> User info (GET) </h3>
-
-{% set chart_data = '{type:"bar",data:{labels:["' + res_userinfo_pydantic|join("\",\"", attribute="name") + '"],datasets:[{label:"req/s",data:[' + res_userinfo_pydantic|join(",", attribute="req") + ']}]}}' %}
-
-<img src='https://quickchart.io/chart?width=800&height=400&c={{ chart_data|urlencode }}' />
-
-<details open>
-<summary> Get user information and return using pydantic, no extra validation. </summary>
-
-Sorted by max req/s
-
-| Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
-| --------- | -----------: | ---------------: | ---------------: | ---------------: |
-{% for res in res_userinfo_pydantic -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
-{% endfor %}
-
-</details>
-
-
-<h3 id="sprint-pydantic"> Sprint issues (GET) </h3>
-
-{% set chart_data = '{type:"bar",data:{labels:["' + res_sprint_pydantic|join("\",\"", attribute="name") + '"],datasets:[{label:"req/s",data:[' + res_sprint_pydantic|join(",", attribute="req") + ']}]}}' %}
-
-<img src='https://quickchart.io/chart?width=800&height=400&c={{ chart_data|urlencode }}' />
-
-<details open>
-<summary> Get sprint tickets overview and return using pydantic, no extra validation. </summary>
-
-Sorted by max req/s
-
-| Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
-| --------- | -----------: | ---------------: | ---------------: | ---------------: |
-{% for res in res_sprint_pydantic -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
-{% endfor %}
-
-</details>
-
-<h3 id="create-task-pydantic"> Create task (POST) </h3>
-
-{% set chart_data = '{type:"bar",data:{labels:["' + res_create_task_pydantic|join("\",\"", attribute="name") + '"],datasets:[{label:"req/s",data:[' + res_create_task_pydantic|join(",", attribute="req") + ']}]}}' %}
-
-<img src='https://quickchart.io/chart?width=800&height=400&c={{ chart_data|urlencode }}' />
-
-<details open>
-<summary> Create task object using default payload and return created object using pydantic, no extra validation. </summary>
-
-Sorted by max req/s
-
-| Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
-| --------- | -----------: | ---------------: | ---------------: | ---------------: |
-{% for res in res_create_task_pydantic -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
-{% endfor %}
-
-</details>
-
-<h3 id="update-task-pydantic"> Update task (PUT) </h3>
-
-{% set chart_data = '{type:"bar",data:{labels:["' + res_update_task_pydantic|join("\",\"", attribute="name") + '"],datasets:[{label:"req/s",data:[' + res_update_task_pydantic|join(",", attribute="req") + ']}]}}' %}
-
-<img src='https://quickchart.io/chart?width=800&height=400&c={{ chart_data|urlencode }}' />
-
-<details open>
-<summary> Update task object using default payload, no extra validation. </summary>
-
-Sorted by max req/s
-
-| Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
-| --------- | -----------: | ---------------: | ---------------: | ---------------: |
-{% for res in res_update_task_pydantic -%}
 | [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 

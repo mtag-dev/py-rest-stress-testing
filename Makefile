@@ -1,7 +1,7 @@
 DATE = $(shell date +'%Y-%m-%d')
 VIRTUAL_ENV ?= env
 
-COMMON_WRK = DURATION=15s CONCURRENT=32 THREADS=4
+COMMON_WRK = DURATION=15s CONCURRENT=64 THREADS=4
 
 $(VIRTUAL_ENV): frameworks/*/requirements.txt
 	@[ -d $(VIRTUAL_ENV) ] || python -m venv $(VIRTUAL_ENV)
@@ -111,16 +111,6 @@ ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
 		SCENARIO=dataclasses \
 		FILENAME=/results/sprint-dataclasses.csv \
 		FIXTURE=/fixtures/sprint.json
-### ========== benchmark GET pydantic ========== ###
-	@make benchmark-framework-scenario $(COMMON_WRK) \
-		SCENARIO=pydantic \
-		FILENAME=/results/userinfo-pydantic.csv \
-		FIXTURE=/fixtures/userinfo.json
-
-	@make benchmark-framework-scenario $(COMMON_WRK) \
-		SCENARIO=pydantic \
-		FILENAME=/results/sprint-pydantic.csv \
-		FIXTURE=/fixtures/sprint.json
 endif
 
 ## ========== benchmark POST raw ========== ###
@@ -135,11 +125,6 @@ ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
 		SCENARIO=dataclasses \
 		FILENAME=/results/create-task-dataclasses.csv \
 		FIXTURE=/fixtures/create-task.json
-## ========== benchmark POST pydantic ========== ###
-	@make benchmark-framework-scenario $(COMMON_WRK) \
-		SCENARIO=pydantic \
-		FILENAME=/results/create-task-pydantic.csv \
-		FIXTURE=/fixtures/create-task.json
 endif
 
 ## ========== benchmark PUT raw ========== ###
@@ -153,11 +138,6 @@ ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
 	@make benchmark-framework-scenario $(COMMON_WRK) \
 		SCENARIO=dataclasses \
 		FILENAME=/results/update-task-dataclasses.csv \
-		FIXTURE=/fixtures/update-task.json
-## ========== benchmark PUT pydantic ========== ###
-	@make benchmark-framework-scenario $(COMMON_WRK) \
-		SCENARIO=pydantic \
-		FILENAME=/results/update-task-pydantic.csv \
 		FIXTURE=/fixtures/update-task.json
 endif
 	@make benchmark-framework-teardown
