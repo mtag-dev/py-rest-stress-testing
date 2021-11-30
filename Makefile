@@ -145,17 +145,17 @@ endif
 
 .PHONY: benchmark
 benchmark: # clean
-	@make benchmark-f FRAMEWORK=aiohttp
-	@make benchmark-f FRAMEWORK=baize
+	@make benchmark-f FRAMEWORK=squall
+	@make benchmark-f FRAMEWORK=muffin
+	@make benchmark-f FRAMEWORK=falcon
 	@make benchmark-f FRAMEWORK=blacksheep
 	@make benchmark-f FRAMEWORK=emmett
-	@make benchmark-f FRAMEWORK=falcon
-	@make benchmark-f FRAMEWORK=fastapi
-	@make benchmark-f FRAMEWORK=muffin
-	@make benchmark-f FRAMEWORK=quart
-	@make benchmark-f FRAMEWORK=sanic
 	@make benchmark-f FRAMEWORK=starlette
-	@make benchmark-f FRAMEWORK=squall
+	@make benchmark-f FRAMEWORK=baize
+	@make benchmark-f FRAMEWORK=sanic
+	@make benchmark-f FRAMEWORK=aiohttp
+	@make benchmark-f FRAMEWORK=fastapi
+	@make benchmark-f FRAMEWORK=quart
 	@make render
 
 # Run benchmark
