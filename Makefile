@@ -10,7 +10,7 @@ $(VIRTUAL_ENV): frameworks/*/requirements.txt
 
 .PHONY:
 benchmark-base:
-	docker build $(CURDIR) -t benchmark-base
+	docker build $(CURDIR) -t benchmark-base --no-cache
 
 .PHONY:
 release:
