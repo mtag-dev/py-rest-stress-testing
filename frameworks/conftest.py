@@ -21,7 +21,6 @@ def ts():
 @pytest.fixture
 async def client(asgi):
     from asgi_tools.tests import ASGITestClient
-
     client = ASGITestClient(asgi)
     async with client.lifespan():
         yield client

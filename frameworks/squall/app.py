@@ -1,19 +1,15 @@
-from __future__ import annotations
-
-from typing import Any, Dict
-
 from dummy.pool import Connection, Pool
 from schema_dataclasses import (CreateTaskRequestBody, CreateTaskResponse,
                                 SprintResponse, UpdateTaskRequestBody,
                                 UserInfoResponse)
 
-from fastapi import Body, FastAPI
-from fastapi.responses import HTMLResponse
+from squall import Body, Squall
+from squall.responses import HTMLResponse
 
 pool = Pool(data_getter=Connection())
 
 
-app = FastAPI()
+app = Squall()
 
 
 # first add 30 more routes to load routing system
@@ -58,7 +54,7 @@ async def dataclasses_sprint(dynamic: int):
 # scenario POST without schema
 # ------------------------------------------------
 @app.post("/api/v1/board/raw/{dynamic}/task")
-async def raw_create_task(dynamic: int, data: Dict[str, Any]):
+async def raw_create_task(dynamic: int, body=Body(...)):
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -66,7 +62,7 @@ async def raw_create_task(dynamic: int, data: Dict[str, Any]):
 # scenario POST with schema
 # ------------------------------------------------
 @app.post("/api/v1/board/dataclasses/{dynamic}/task", response_model=CreateTaskResponse)
-async def dataclasses_create_task(dynamic: int, data: CreateTaskRequestBody = Body(...)):
+async def dataclasses_create_task(dynamic: int, data: CreateTaskRequestBody):
     async with pool as connection:
         return await connection.get("create-task.json")
 
@@ -74,16 +70,16 @@ async def dataclasses_create_task(dynamic: int, data: CreateTaskRequestBody = Bo
 # scenario PUT without schema
 # ------------------------------------------------
 @app.put("/api/v1/board/raw/{dynamic}/task")
-async def raw_update_task(dynamic: int, data: Dict[str, Any]):
+async def raw_update_task(dynamic: int, body=Body(...)):
     async with pool as connection:
         await connection.get("update-task.json")
-        return b''
+        return ''
 
 
 # scenario PUT with schema
 # ------------------------------------------------
 @app.put("/api/v1/board/dataclasses/{dynamic}/task")
-async def dataclasses_update_task(dynamic: int, data: UpdateTaskRequestBody = Body(...)):
+async def dataclasses_update_task(dynamic: int, data: UpdateTaskRequestBody):
     async with pool as connection:
         await connection.get("update-task.json")
-        return b''
+        return ''

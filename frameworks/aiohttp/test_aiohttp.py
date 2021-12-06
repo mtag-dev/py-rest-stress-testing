@@ -20,14 +20,46 @@ async def aiohttp_client(app):
     await client.close()
 
 
-async def test_api(aiohttp_client, fixtures):
+async def test_userinfo(aiohttp_client, fixtures):
     rand = random.randint(10, 99)
-    url = f"/api/v1/userinfo/{rand}"
+    url = f"/api/v1/userinfo/raw/{rand}"
     res = await aiohttp_client.get(url)
     assert res.status == 200
     assert 'application/json' in res.headers.get('content-type', "")
     json = await res.json()
     assert json == fixtures['userinfo.json']['response']['payload']
+
+
+async def test_sprint(aiohttp_client, fixtures):
+    rand = random.randint(10, 99)
+    url = f"/api/v1/sprint/raw/{rand}"
+    res = await aiohttp_client.get(url)
+    assert res.status == 200
+    assert 'application/json' in res.headers.get('content-type', "")
+    json = await res.json()
+    assert json == fixtures['sprint.json']['response']['payload']
+
+
+async def test_create_task(aiohttp_client, fixtures):
+    rand = random.randint(10, 99)
+    url = f"/api/v1/board/raw/{rand}/task"
+    res = await aiohttp_client.post(
+        url, json=fixtures['create-task.json']['request'])
+    assert res.status == 200
+    assert 'application/json' in res.headers.get('content-type', "")
+    json = await res.json()
+    assert json == fixtures['create-task.json']['response']['payload']
+
+
+async def test_update_task(aiohttp_client, fixtures):
+    rand = random.randint(10, 99)
+    url = f"/api/v1/board/raw/{rand}/task"
+    res = await aiohttp_client.put(
+        url, json=fixtures['update-task.json']['request'])
+    assert res.status == 200
+    # assert 'application/json' in res.headers.get('content-type', "")
+    data = await res.text()
+    assert data == ''
 
 
 async def test_routing(aiohttp_client):
@@ -39,4 +71,3 @@ async def test_routing(aiohttp_client):
         assert res.status == 200
         res = await aiohttp_client.put(f"/route-put-{n}/{rand}", json={'foo': 'bar'})
         assert res.status == 200
-

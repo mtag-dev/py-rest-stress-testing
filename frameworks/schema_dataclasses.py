@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 from dataclasses import dataclass, field
 
 ## - - - - - - -
@@ -58,3 +58,76 @@ class Issue:
 class SprintResponse:
     sprint: Sprint
     issues: List[Issue]
+
+
+## - - - - - - -
+## create-task.json
+## - - - - - - -
+@dataclass
+class CreateTaskRequestBody:
+    author: str
+    assigned: str
+    summary: str
+    project: str
+    sprint: str
+    sprint: str
+    labels: List[str]
+    issue_type: str
+    components: List[str]
+    description: str
+    priority: str
+
+
+@dataclass
+class CreateTaskPerson:
+    id: str
+    email: str
+    name: str
+    picture: str
+    is_active: bool
+
+
+@dataclass
+class CreateTaskProject:
+    id: str
+    name: str
+
+
+@dataclass
+class CreateTaskStatus:
+    id: str
+    name: str
+
+
+@dataclass
+class CreateTaskActivity:
+    user_id: str
+    action: str
+    created_at: str
+    details: Optional[Union[CreateTaskPerson, CreateTaskStatus]] = None
+
+
+@dataclass
+class CreateTaskResponse:
+    author: CreateTaskPerson
+    assigned: CreateTaskPerson
+    summary: str
+    project: CreateTaskProject
+    sprint: str
+    labels: List[str]
+    issue_type: str
+    components: List[str]
+    description: str
+    priority: str
+    status: CreateTaskStatus
+    activity: List[CreateTaskActivity]
+    created_at: str
+    modified_at: str
+
+
+## - - - - - - -
+## update-task.json
+## - - - - - - -
+@dataclass
+class UpdateTaskRequestBody(CreateTaskRequestBody):
+    pass

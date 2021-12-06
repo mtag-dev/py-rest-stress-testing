@@ -6,8 +6,6 @@ RUN apt-get update && \
 RUN /usr/local/bin/pip install --no-cache-dir \
     wheel \
     gunicorn \
-    orjson \
-    ujson \
     uvicorn[standard] \
     janus
 

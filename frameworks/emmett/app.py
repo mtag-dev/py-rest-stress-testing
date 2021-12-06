@@ -1,4 +1,4 @@
-from emmett import App, request, response
+from emmett import App, request
 from emmett.tools import service
 
 from dummy.pool import Pool, Connection
@@ -38,17 +38,38 @@ async def req_put(part=None):
     return 'ok'
 
 
-# then prepare endpoints for the benchmark
-# ----------------------------------------0
-@app.route("/api/v1/userinfo/<int:dynamic>", methods=["get"])
+# raw scenario GET
+# ------------------------------------------------
+@app.route("/api/v1/userinfo/raw/<int:dynamic>", methods=["get"])
 @service.json
-async def userinfo(dynamic):
+async def raw_userinfo(dynamic):
     async with pool as connection:
         return await connection.get("userinfo.json")
 
 
-@app.route("/api/v1/sprint/<int:dynamic>", methods=["get"])
+@app.route("/api/v1/sprint/raw/<int:dynamic>", methods=["get"])
 @service.json
-async def sprint(dynamic):
+async def raw_sprint(dynamic):
     async with pool as connection:
         return await connection.get("sprint.json")
+
+
+# raw scenario POST
+# ------------------------------------------------
+@app.route("/api/v1/board/raw/<int:dynamic>/task", methods=["post"])
+@service.json
+async def raw_create_task(dynamic):
+    await request.body
+    async with pool as connection:
+        return await connection.get("create-task.json")
+
+
+# raw scenario PUT
+# ------------------------------------------------
+@app.route("/api/v1/board/raw/<int:dynamic>/task", methods=["put"])
+@service.json
+async def raw_update_task(dynamic):
+    await request.body
+    async with pool as connection:
+        await connection.get("update-task.json")
+        return ""

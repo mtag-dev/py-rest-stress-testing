@@ -1,6 +1,8 @@
 DATE = $(shell date +'%Y-%m-%d')
 VIRTUAL_ENV ?= env
 
+COMMON_WRK = DURATION=15s CONCURRENT=64 THREADS=4
+
 $(VIRTUAL_ENV): frameworks/*/requirements.txt
 	@[ -d $(VIRTUAL_ENV) ] || python -m venv $(VIRTUAL_ENV)
 	find frameworks | grep requirements | xargs -n1 $(VIRTUAL_ENV)/bin/pip install -r
@@ -8,7 +10,7 @@ $(VIRTUAL_ENV): frameworks/*/requirements.txt
 
 .PHONY:
 benchmark-base:
-	docker build $(CURDIR) -t benchmark-base
+	docker build $(CURDIR) -t benchmark-base --no-cache
 
 .PHONY:
 release:
@@ -50,15 +52,19 @@ benchmark-framework-setup:
 	@docker build -f $(CURDIR)/frameworks/Dockerfile -t benchmarks:$(FRAMEWORK) $(CURDIR)/frameworks/$(FRAMEWORK)
 	@docker run --rm -d --network bench \
 			--sysctl net.core.somaxconn=4096 \
-			--sysctl net.ipv4.vs.conntrack=0 \
-			--sysctl net.ipv4.vs.expire_nodest_conn=1 \
-			--sysctl net.ipv4.vs.conn_reuse_mode=0 \
+			-v `dirname $(CURDIR)`/squall:/squall \
 			-v $(CURDIR)/dummy:/app/dummy \
 			-v $(CURDIR)/fixtures:/app/fixtures \
 			-v $(CURDIR)/frameworks/schema_dataclasses.py:/app/schema_dataclasses.py \
 			-v $(CURDIR)/frameworks/schema_pydantic.py:/app/schema_pydantic.py \
 			-p 8080:8080 \
 			--name benchmark benchmarks:$(FRAMEWORK)
+
+    ifeq ($(FRAMEWORK), squall)
+		docker exec benchmark pip install /squall
+		@python -c "import time; time.sleep(5)"
+    endif
+	@python -c "import time; time.sleep(5)"
 	@echo "\nSetup finished [$(FRAMEWORK)]\n"
 
 .PHONY: benchmark-framework-teardown
@@ -69,89 +75,87 @@ benchmark-framework-teardown:
 
 .PHONY: benchmark-framework-scenario
 benchmark-framework-scenario:
-	@echo "\nRun fixture $(FIXTURE) [$(FRAMEWORK)]\n"
+	@echo "\nRun fixture $(FIXTURE) [$(FRAMEWORK) $(SCENARIO)]\n"
 	@docker run --rm --network bench \
-			-e FRAMEWORK=$(FRAMEWORK) -e FILENAME=$(FILENAME) -e FIXTURE=$(FIXTURE) \
+			-e FRAMEWORK=$(FRAMEWORK) -e FILENAME=$(FILENAME) -e FIXTURE=$(FIXTURE) -e SCENARIO=$(SCENARIO)  \
 			-v $(CURDIR)/fixtures:/fixtures \
 			-v $(CURDIR)/results:/results \
 			-v $(CURDIR)/wrk:/scripts \
 			--sysctl net.core.somaxconn=4096 \
-			--sysctl net.ipv4.vs.conntrack=0 \
-			--sysctl net.ipv4.vs.expire_nodest_conn=1 \
-			--sysctl net.ipv4.vs.conn_reuse_mode=0 \
 			czerasz/wrk-json \
 			wrk http://benchmark:8080 -d$(DURATION) -t$(THREADS) -c$(CONCURRENT) -s /scripts/process.lua
-	@echo "\nFinish [$(FRAMEWORK)]\n"
+	@echo "\nFinish [$(FRAMEWORK) $(SCENARIO)]\n"
 
-.PHONY: benchmark-raw
-benchmark-raw:
+benchmark-f: # clean
+
 	@make benchmark-framework-setup FRAMEWORK=$(FRAMEWORK)
-	@make benchmark-framework-scenario FRAMEWORK=$(FRAMEWORK) \
+### ========== benchmark GET raw ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=raw \
 		FILENAME=/results/userinfo-raw.csv \
-		FIXTURE=/fixtures/userinfo.json \
-		DURATION=15s \
-		CONCURRENT=32 \
-		THREADS=4
-	@make benchmark-framework-scenario FRAMEWORK=$(FRAMEWORK) \
+		FIXTURE=/fixtures/userinfo.json
+
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=raw \
 		FILENAME=/results/sprint-raw.csv \
-		FIXTURE=/fixtures/sprint.json \
-		DURATION=15s \
-		CONCURRENT=32 \
-		THREADS=4
-	@make benchmark-framework-teardown
+		FIXTURE=/fixtures/sprint.json
 
-.PHONY: benchmark-dataclass
-benchmark-dataclass:
-	@make benchmark-framework-setup FRAMEWORK=$(FRAMEWORK)
-	@make benchmark-framework-scenario FRAMEWORK=$(FRAMEWORK) \
-		FILENAME=/results/userinfo-dataclass.csv \
-		FIXTURE=/fixtures/userinfo.json \
-		DURATION=15s \
-		CONCURRENT=32 \
-		THREADS=4
-	@make benchmark-framework-scenario FRAMEWORK=$(FRAMEWORK) \
-		FILENAME=/results/sprint-dataclass.csv \
-		FIXTURE=/fixtures/sprint.json \
-		DURATION=15s \
-		CONCURRENT=32 \
-		THREADS=4
-	@make benchmark-framework-teardown
+ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
+### ========== benchmark GET dataclasses ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=dataclasses \
+		FILENAME=/results/userinfo-dataclasses.csv \
+		FIXTURE=/fixtures/userinfo.json
 
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=dataclasses \
+		FILENAME=/results/sprint-dataclasses.csv \
+		FIXTURE=/fixtures/sprint.json
+endif
 
-.PHONY: benchmark-pydantic
-benchmark-pydantic:
-	@make benchmark-framework-setup FRAMEWORK=$(FRAMEWORK)
-	@make benchmark-framework-scenario FRAMEWORK=$(FRAMEWORK) \
-		FILENAME=/results/userinfo-pydantic.csv \
-		FIXTURE=/fixtures/userinfo.json \
-		DURATION=15s \
-		CONCURRENT=32 \
-		THREADS=4
-	@make benchmark-framework-scenario FRAMEWORK=$(FRAMEWORK) \
-		FILENAME=/results/sprint-pydantic.csv \
-		FIXTURE=/fixtures/sprint.json \
-		DURATION=15s \
-		CONCURRENT=32 \
-		THREADS=4
+## ========== benchmark POST raw ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=raw \
+		FILENAME=/results/create-task-raw.csv \
+		FIXTURE=/fixtures/create-task.json
+
+ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
+## ========== benchmark POST dataclasses ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=dataclasses \
+		FILENAME=/results/create-task-dataclasses.csv \
+		FIXTURE=/fixtures/create-task.json
+endif
+
+## ========== benchmark PUT raw ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=raw \
+		FILENAME=/results/update-task-raw.csv \
+		FIXTURE=/fixtures/update-task.json
+
+ifeq ($(FRAMEWORK),$(filter $(FRAMEWORK),squall blacksheep fastapi))
+## ========== benchmark PUT dataclasses ========== ###
+	@make benchmark-framework-scenario $(COMMON_WRK) \
+		SCENARIO=dataclasses \
+		FILENAME=/results/update-task-dataclasses.csv \
+		FIXTURE=/fixtures/update-task.json
+endif
 	@make benchmark-framework-teardown
 
 
 .PHONY: benchmark
 benchmark: # clean
-	@make benchmark-raw FRAMEWORK=aiohttp
-	@make benchmark-raw FRAMEWORK=baize
-	@make benchmark-raw FRAMEWORK=blacksheep
-	@make benchmark-raw FRAMEWORK=emmett
-	@make benchmark-raw FRAMEWORK=falcon
-	@make benchmark-raw FRAMEWORK=fastapi
-	@make benchmark-raw FRAMEWORK=muffin
-	@make benchmark-raw FRAMEWORK=quart
-	@make benchmark-raw FRAMEWORK=sanic
-	@make benchmark-raw FRAMEWORK=starlette
-	@make benchmark-dataclass FRAMEWORK=fastapi-dataclass
-	@make benchmark-dataclass FRAMEWORK=blacksheep-dataclass
-	@make benchmark-pydantic FRAMEWORK=fastapi-pydantic
-	@make benchmark-pydantic FRAMEWORK=blacksheep-pydantic
+	@make benchmark-f FRAMEWORK=squall
+	@make benchmark-f FRAMEWORK=muffin
+	@make benchmark-f FRAMEWORK=falcon
+	@make benchmark-f FRAMEWORK=blacksheep
+	@make benchmark-f FRAMEWORK=emmett
+	@make benchmark-f FRAMEWORK=starlette
+	@make benchmark-f FRAMEWORK=baize
+	@make benchmark-f FRAMEWORK=sanic
+	@make benchmark-f FRAMEWORK=aiohttp
+	@make benchmark-f FRAMEWORK=fastapi
+	@make benchmark-f FRAMEWORK=quart
 	@make render
 
 # Run benchmark

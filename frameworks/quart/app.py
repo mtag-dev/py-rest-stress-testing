@@ -1,5 +1,3 @@
-import time
-from uuid import uuid4
 
 from quart import Quart, Response, request
 
@@ -21,15 +19,34 @@ for n in range(10):
     app.route(f"/route-put-{n}/<int:part>", methods=['PUT'])(req_any)
 
 
-# then prepare endpoints for the benchmark
-# ----------------------------------------
-@app.route('/api/v1/userinfo/<int:dynamic>', methods=['GET'])
-async def userinfo(dynamic):
+# raw scenario GET
+# ------------------------------------------------
+@app.route('/api/v1/userinfo/raw/<int:dynamic>', methods=['GET'])
+async def raw_userinfo(dynamic):
     async with pool as connection:
         return await connection.get("userinfo.json")
 
 
-@app.route('/api/v1/sprint/<int:dynamic>', methods=['GET'])
-async def sprint(dynamic):
+@app.route('/api/v1/sprint/raw/<int:dynamic>', methods=['GET'])
+async def raw_sprint(dynamic):
     async with pool as connection:
         return await connection.get("sprint.json")
+
+
+# raw scenario POST
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/<int:dynamic>/task', methods=['POST'])
+async def raw_create_task(dynamic):
+    await request.body
+    async with pool as connection:
+        return await connection.get("create-task.json")
+
+
+# raw scenario PUT
+# ------------------------------------------------
+@app.route('/api/v1/board/raw/<int:dynamic>/task', methods=['PUT'])
+async def raw_update_task(dynamic):
+    await request.body
+    async with pool as connection:
+        await connection.get("update-task.json")
+        return b''

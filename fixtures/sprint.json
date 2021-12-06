@@ -1,7 +1,7 @@
 {
   "method":"GET",
   "request":{
-    "path":"/api/v1/sprint/${dynamic}",
+    "path":"/api/v1/sprint/${scenario}/${dynamic}",
     "headers":{
       "content-type":"application/json"
     }

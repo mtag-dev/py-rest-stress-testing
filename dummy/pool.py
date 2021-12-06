@@ -15,13 +15,13 @@ class Connection:
 
     async def get(self, fixture, latency_ms: int = 1):
         await asyncio.sleep(latency_ms / 1000)
-        return self._responses[fixture]['response'].get('payload', '')
+        return self._responses[fixture].get('response', {}).get('payload', '')
 
 
 class Pool:
     def __init__(self,
                  data_getter: Connection,
-                 pool_size: int = 10):
+                 pool_size: int = 100):
         self.pool_size = pool_size
         self._data_getter = data_getter
         self._async_q = None

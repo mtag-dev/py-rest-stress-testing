@@ -2,10 +2,10 @@ name: tests
 
 on:
   pull_request:
-    branches: [master, develop]
+    branches: [master, develop, squall_integration]
 
   push:
-    branches: [master, develop]
+    branches: [master, develop, squall_integration]
 
 jobs:
   tests:

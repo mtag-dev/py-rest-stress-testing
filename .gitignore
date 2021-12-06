@@ -9,3 +9,5 @@
 /.idea/
 __pycache__
 *.pyc
+
+frameworks/emmett/logs/
