@@ -1,5 +1,6 @@
 DATE = $(shell date +'%Y-%m-%d')
 VIRTUAL_ENV ?= env
+LOCAL_SQUALL=FALSE
 
 COMMON_WRK = DURATION=15s CONCURRENT=64 THREADS=4
 
@@ -59,8 +60,13 @@ benchmark-framework-setup:
 			-v $(CURDIR)/frameworks/schema_pydantic.py:/app/schema_pydantic.py \
 			-p 8080:8080 \
 			--name benchmark benchmarks:$(FRAMEWORK)
-
-	@sleep 5
+ifeq ($(FRAMEWORK), squall)
+ifeq ($(LOCAL_SQUALL), TRUE)
+	docker exec benchmark pip install /squall
+	@python -c "import time; time.sleep(5)"
+endif
+endif
+	@python -c "import time; time.sleep(5)"
 	@echo "\nSetup finished [$(FRAMEWORK)]\n"
 
 .PHONY: benchmark-framework-teardown
