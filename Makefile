@@ -60,11 +60,7 @@ benchmark-framework-setup:
 			-p 8080:8080 \
 			--name benchmark benchmarks:$(FRAMEWORK)
 
-    ifeq ($(FRAMEWORK), squall)
-		docker exec benchmark pip install /squall
-		@python -c "import time; time.sleep(5)"
-    endif
-	@python -c "import time; time.sleep(5)"
+	@sleep 5
 	@echo "\nSetup finished [$(FRAMEWORK)]\n"
 
 .PHONY: benchmark-framework-teardown
@@ -145,17 +141,17 @@ endif
 
 .PHONY: benchmark
 benchmark: # clean
-	@make benchmark-f FRAMEWORK=squall
-	@make benchmark-f FRAMEWORK=muffin
-	@make benchmark-f FRAMEWORK=falcon
+	@make benchmark-f FRAMEWORK=aiohttp
+	@make benchmark-f FRAMEWORK=baize
 	@make benchmark-f FRAMEWORK=blacksheep
 	@make benchmark-f FRAMEWORK=emmett
-	@make benchmark-f FRAMEWORK=starlette
-	@make benchmark-f FRAMEWORK=baize
-	@make benchmark-f FRAMEWORK=sanic
-	@make benchmark-f FRAMEWORK=aiohttp
+	@make benchmark-f FRAMEWORK=falcon
 	@make benchmark-f FRAMEWORK=fastapi
+	@make benchmark-f FRAMEWORK=muffin
 	@make benchmark-f FRAMEWORK=quart
+	@make benchmark-f FRAMEWORK=sanic
+	@make benchmark-f FRAMEWORK=starlette
+	@make benchmark-f FRAMEWORK=squall
 	@make render
 
 # Run benchmark

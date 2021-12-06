@@ -102,7 +102,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_userinfo_raw -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -122,7 +122,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_sprint_raw -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -142,7 +142,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_create_task_raw -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -161,7 +161,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_update_task_raw -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -182,7 +182,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_userinfo_dataclass -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -202,7 +202,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_sprint_dataclass -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -222,7 +222,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_create_task_dataclass -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>
@@ -241,7 +241,7 @@ Sorted by max req/s
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
 {% for res in res_update_task_dataclass -%}
-| [{{ res.name }}](https://pypi.org/project/{{ res.name }}/) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
+| [{{ res.name }}]({{ res.path }}) `{{ res.version }}` | {{ res.req }} | {{ res.lt50 }} | {{ res.lt75 }} | {{ res.lt_avg }}
 {% endfor %}
 
 </details>

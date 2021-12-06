@@ -1,1 +1,2 @@
 python-multipart
+python-squall == 0.1.1

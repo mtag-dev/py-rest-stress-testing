@@ -21,6 +21,7 @@ sys.path.append(os.path.join(os.getcwd(), "frameworks"))
     'muffin',
     'sanic',
     'starlette',
+    'squall'
 ])
 def asgi(request):
     mod = import_module(f".{request.param}.app", package=__package__)

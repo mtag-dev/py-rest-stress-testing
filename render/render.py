@@ -18,7 +18,7 @@ PAGES_HOME_TEMPLATE = jinja2.Template((BASEDIR / 'render/pages/index.md').read_t
 # PAGES_RESULTS = Path(BASEDIR / f"docs/_posts/{ NOW.strftime('%Y-%m-%d') }-results.md")
 PAGES_RESULTS_TEMPLATE = jinja2.Template((BASEDIR / 'render/pages/results.md').read_text())
 
-Result = namedtuple('Result', ['name', 'version', 'req', 'lt50', 'lt75', 'lt90', 'lt_avg', 'es', 'er', 'et'])
+Result = namedtuple('Result', ['name', 'path', 'version', 'req', 'lt50', 'lt75', 'lt90', 'lt_avg', 'es', 'er', 'et'])
 
 results = {
     "res_userinfo_raw": Path(BASEDIR / 'results/userinfo-raw.csv'),
@@ -32,6 +32,19 @@ results = {
 }
 
 
+framework_pathes = {"squall": "https://pypi.org/project/python-squall/",
+                    "muffin": "https://pypi.org/project/muffin/",
+                    "falcon": "https://pypi.org/project/falcon/",
+                    "blacksheep": "https://pypi.org/project/blacksheep/",
+                    "emmett": "https://pypi.org/project/emmett/",
+                    "starlette": "https://pypi.org/project/starlette/",
+                    "baize": "https://pypi.org/project/baize/",
+                    "sanic": "https://pypi.org/project/sanic/",
+                    "aiohttp": "https://pypi.org/project/aiohttp/",
+                    "fastapi": "https://pypi.org/project/fastapi/",
+                    "quart": "https://pypi.org/project/quart/"}
+
+
 def render():
     """Load CSV Results and render it into README."""
     dataset = {}
@@ -39,7 +52,8 @@ def render():
     for scenario, source in results.items():
         with open(source) as csvfile:
             dataset[scenario] = [
-                Result(name, parse_version(name), round(int(req) / 15), *row) for name, req, *row in csv.reader(csvfile)]
+                Result(name, get_path(name), parse_version(name), round(int(req) / 15), *row)
+                for name, req, *row in csv.reader(csvfile)]
 
     ctx = dict(
         now=NOW,
@@ -60,6 +74,11 @@ def parse_version(name):
     requirements = (FRAMEWORKS / fw_name / 'requirements.txt').read_text()
     version = re.match(f"^\s*{fw_name}[^=]*==\s*(.*)\s*$", requirements, re.MULTILINE)  # noqa
     return version and version.group(1) or ''
+
+
+def get_path(name):
+    fw_name = name.split('-')[0]
+    return framework_pathes.get(fw_name)
 
 
 def render_template(template, target, **ctx):

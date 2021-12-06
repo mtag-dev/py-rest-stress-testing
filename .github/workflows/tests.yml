@@ -5,7 +5,7 @@ on:
     branches: [master, develop, squall_integration]
 
   push:
-    branches: [master, develop, squall_integration]
+    branches: [master, develop]
 
 jobs:
   tests:
