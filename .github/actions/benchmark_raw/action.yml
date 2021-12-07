@@ -10,6 +10,10 @@ inputs:
     description: Name of docker network
     default: data
 
+  with-dataclasses:
+    description: List of frameworks which support dataclasses
+    default: squall blacksheep fastapi
+
 runs:
   using: composite
   steps:
@@ -29,6 +33,7 @@ runs:
       shell: bash
 
     - name: Run GET raw userinfo
+      if: contains(inputs.with-dataclasses, inputs.framework)
       run: >
         docker run --network ${{ inputs.network }}
         -e FRAMEWORK=${{ inputs.framework }}
@@ -42,6 +47,7 @@ runs:
       shell: bash
 
     - name: Run GET raw sprint
+      if: contains(inputs.with-dataclasses, inputs.framework)
       run: >
         docker run --network ${{ inputs.network }}
         -e FRAMEWORK=${{ inputs.framework }}
