@@ -2,7 +2,7 @@ name: benchmark_raw
 
 inputs:
 
-  name:
+  framework:
     description: Name of the framework
     required: true
 
@@ -14,11 +14,11 @@ runs:
   using: composite
   steps:
 
-    - name: Build
-      run: docker build -f ./frameworks/Dockerfile -t app ./frameworks/${{ inputs.name }}
+    - name: Build image with application - ${{ inputs.framework }}
+      run: docker build -f ./frameworks/Dockerfile -t app ./frameworks/${{ inputs.framework }}
       shell: bash
 
-    - name: Run
+    - name: Run application - ${{ inputs.framework }}
       run: >
         docker run --rm --network ${{ inputs.network }} -d
         -v $GITHUB_WORKSPACE/dummy:/app/dummy
@@ -28,29 +28,45 @@ runs:
         --name app app
       shell: bash
 
-    - name: Run raw userinfo
+    - name: Run GET raw userinfo
       run: >
         docker run --network ${{ inputs.network }}
-        -e FRAMEWORK=${{ inputs.name }}
+        -e FRAMEWORK=${{ inputs.framework }}
         -e FILENAME=/results/userinfo-raw.csv
         -e FIXTURE=/fixtures/userinfo.json
+        -e SCENARIO=raw
         -v $GITHUB_WORKSPACE/results:/results
         -v $GITHUB_WORKSPACE/wrk:/scripts
         -v $GITHUB_WORKSPACE/fixtures:/fixtures
         czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
       shell: bash
 
-    - name: Run raw sprint
+    - name: Run GET raw sprint
       run: >
         docker run --network ${{ inputs.network }}
-        -e FRAMEWORK=${{ inputs.name }}
+        -e FRAMEWORK=${{ inputs.framework }}
         -e FILENAME=/results/sprint-raw.csv
         -e FIXTURE=/fixtures/sprint.json
+        -e SCENARIO=raw
         -v $GITHUB_WORKSPACE/results:/results
         -v $GITHUB_WORKSPACE/wrk:/scripts
         -v $GITHUB_WORKSPACE/fixtures:/fixtures
         czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
       shell: bash
+
+
+
+#    - name: Run raw sprint
+#      run: >
+#        docker run --network ${{ inputs.network }}
+#        -e FRAMEWORK=${{ inputs.framework }}
+#        -e FILENAME=/results/sprint-raw.csv
+#        -e FIXTURE=/fixtures/sprint.json
+#        -v $GITHUB_WORKSPACE/results:/results
+#        -v $GITHUB_WORKSPACE/wrk:/scripts
+#        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+#        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+#      shell: bash
 
     - name: Clean
       run: docker stop app
