@@ -17,60 +17,61 @@ jobs:
         run: docker build . -t benchmark-base
         shell: bash
 
-      - name: Benchmark aiohttp
-        uses: ./.github/actions/benchmark_raw
+      - name: Benchmark squall
+        uses: ./.github/actions/benchmark
         with:
-          framework: aiohttp
-
-      - name: Benchmark baize
-        uses: ./.github/actions/benchmark_raw
-        with:
-          framework: baize
+          framework: squall
 
       - name: Benchmark blacksheep
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: blacksheep
 
       - name: Benchmark emmett
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: emmett
 
+      - name: Benchmark aiohttp
+        uses: ./.github/actions/benchmark
+        with:
+          framework: aiohttp
+
+      - name: Benchmark baize
+        uses: ./.github/actions/benchmark
+        with:
+          framework: baize
+
       - name: Benchmark falcon
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: falcon
 
       - name: Benchmark fastapi
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: fastapi
 
       - name: Benchmark muffin
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: muffin
 
       - name: Benchmark quart
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: quart
 
       - name: Benchmark sanic
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: sanic
 
       - name: Benchmark starlette
-        uses: ./.github/actions/benchmark_raw
+        uses: ./.github/actions/benchmark
         with:
           framework: starlette
 
-      - name: Benchmark squall
-        uses: ./.github/actions/benchmark_raw
-        with:
-          framework: squall
 
 #  readme:
 #    name: Update Results
