@@ -1,5 +1,6 @@
 DATE = $(shell date +'%Y-%m-%d')
 VIRTUAL_ENV ?= env
+LOCAL_SQUALL=FALSE
 
 COMMON_WRK = DURATION=15s CONCURRENT=64 THREADS=4
 
@@ -59,11 +60,12 @@ benchmark-framework-setup:
 			-v $(CURDIR)/frameworks/schema_pydantic.py:/app/schema_pydantic.py \
 			-p 8080:8080 \
 			--name benchmark benchmarks:$(FRAMEWORK)
-
-    ifeq ($(FRAMEWORK), squall)
-		docker exec benchmark pip install /squall
-		@python -c "import time; time.sleep(5)"
-    endif
+ifeq ($(FRAMEWORK), squall)
+ifeq ($(LOCAL_SQUALL), TRUE)
+	docker exec benchmark pip install /squall
+	@python -c "import time; time.sleep(5)"
+endif
+endif
 	@python -c "import time; time.sleep(5)"
 	@echo "\nSetup finished [$(FRAMEWORK)]\n"
 
@@ -145,17 +147,17 @@ endif
 
 .PHONY: benchmark
 benchmark: # clean
-	@make benchmark-f FRAMEWORK=squall
-	@make benchmark-f FRAMEWORK=muffin
-	@make benchmark-f FRAMEWORK=falcon
+	@make benchmark-f FRAMEWORK=aiohttp
+	@make benchmark-f FRAMEWORK=baize
 	@make benchmark-f FRAMEWORK=blacksheep
 	@make benchmark-f FRAMEWORK=emmett
-	@make benchmark-f FRAMEWORK=starlette
-	@make benchmark-f FRAMEWORK=baize
-	@make benchmark-f FRAMEWORK=sanic
-	@make benchmark-f FRAMEWORK=aiohttp
+	@make benchmark-f FRAMEWORK=falcon
 	@make benchmark-f FRAMEWORK=fastapi
+	@make benchmark-f FRAMEWORK=muffin
 	@make benchmark-f FRAMEWORK=quart
+	@make benchmark-f FRAMEWORK=sanic
+	@make benchmark-f FRAMEWORK=starlette
+	@make benchmark-f FRAMEWORK=squall
 	@make render
 
 # Run benchmark
