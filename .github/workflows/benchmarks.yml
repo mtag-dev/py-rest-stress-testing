@@ -21,81 +21,57 @@ jobs:
         uses: ./.github/actions/benchmark_raw
         with:
           framework: aiohttp
-          network: data
 
-#
-#      - name: Benchmark Blacksheep [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: blacksheep
-#          network: data
-#
-#      - name: Benchmark Baize [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: baize
-#          network: data
-#
-#      - name: Benchmark Muffin [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: muffin
-#          network: data
-#
-#      - name: Benchmark Quart [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: quart
-#          network: data
-#
-#      - name: Benchmark Sanic [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: sanic
-#          network: data
-#
-#      - name: Benchmark Starlette [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: starlette
-#          network: data
-#
-#      - name: Benchmark Falcon [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: falcon
-#          network: data
-#
-#      - name: Benchmark FastApi [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: fastapi
-#          network: data
-#
-#      - name: Benchmark Emmett [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: emmett
-#          network: data
-#
-#      - name: Benchmark Blacksheep [dataclass]
-#        uses: ./.github/actions/benchmark_dataclass
-#        with:
-#          name: blacksheep-dataclass
-#          network: data
-#
-#      - name: Benchmark FastApi [dataclass]
-#        uses: ./.github/actions/benchmark_dataclass
-#        with:
-#          name: fastapi-dataclass
-#          network: data
-#
-#      - name: Results
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: results
-#          path: ./results
-#
+      - name: Benchmark baize
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: baize
+
+      - name: Benchmark blacksheep
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: blacksheep
+
+      - name: Benchmark emmett
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: emmett
+
+      - name: Benchmark falcon
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: falcon
+
+      - name: Benchmark fastapi
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: fastapi
+
+      - name: Benchmark muffin
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: muffin
+
+      - name: Benchmark quart
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: quart
+
+      - name: Benchmark sanic
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: sanic
+
+      - name: Benchmark starlette
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: starlette
+
+      - name: Benchmark squall
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: squall
+
 #  readme:
 #    name: Update Results
 #    needs: benchmark

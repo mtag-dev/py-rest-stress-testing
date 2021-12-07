@@ -1,0 +1,146 @@
+name: benchmark_raw
+
+inputs:
+
+  framework:
+    description: Name of the framework
+    required: true
+
+  network:
+    description: Name of docker network
+    default: data
+
+  with-dataclasses:
+    description: List of frameworks which support dataclasses
+    default: squall blacksheep fastapi
+
+runs:
+  using: composite
+  steps:
+
+    - name: Build image with application - ${{ inputs.framework }}
+      run: docker build -f ./frameworks/Dockerfile -t app ./frameworks/${{ inputs.framework }}
+      shell: bash
+
+    - name: Run application - ${{ inputs.framework }}
+      run: >
+        docker run --rm --network ${{ inputs.network }} -d
+        -v $GITHUB_WORKSPACE/dummy:/app/dummy
+        -v $GITHUB_WORKSPACE/fixtures:/app/fixtures
+        -v $GITHUB_WORKSPACE/frameworks/schema_dataclasses.py:/app/schema_dataclasses.py
+        -v $GITHUB_WORKSPACE/frameworks/schema_pydantic.py:/app/schema_pydantic.py
+        --name app app
+      shell: bash
+
+    - name: Run GET raw userinfo
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/userinfo-raw.csv
+        -e FIXTURE=/fixtures/userinfo.json
+        -e SCENARIO=raw
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run GET raw sprint
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/sprint-raw.csv
+        -e FIXTURE=/fixtures/sprint.json
+        -e SCENARIO=raw
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run GET dataclasses userinfo
+      if: contains(inputs.with-dataclasses, inputs.framework)
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/userinfo-dataclasses.csv
+        -e FIXTURE=/fixtures/userinfo.json
+        -e SCENARIO=dataclasses
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run GET dataclasses sprint
+      if: contains(inputs.with-dataclasses, inputs.framework)
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/sprint-dataclasses.csv
+        -e FIXTURE=/fixtures/sprint.json
+        -e SCENARIO=dataclasses
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run POST raw create-task
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/create-task-raw.csv
+        -e FIXTURE=/fixtures/create-task.json
+        -e SCENARIO=raw
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run POST dataclasses create-task
+      if: contains(inputs.with-dataclasses, inputs.framework)
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/create-task-dataclasses.csv
+        -e FIXTURE=/fixtures/create-task.json
+        -e SCENARIO=dataclasses
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run PUT raw update-task
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/update-task-raw.csv
+        -e FIXTURE=/fixtures/update-task.json
+        -e SCENARIO=raw
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Run PUT dataclasses update-task
+      if: contains(inputs.with-dataclasses, inputs.framework)
+      run: >
+        docker run --network ${{ inputs.network }}
+        -e FRAMEWORK=${{ inputs.framework }}
+        -e FILENAME=/results/update-task-dataclasses.csv
+        -e FIXTURE=/fixtures/update-task.json
+        -e SCENARIO=dataclasses
+        -v $GITHUB_WORKSPACE/results:/results
+        -v $GITHUB_WORKSPACE/wrk:/scripts
+        -v $GITHUB_WORKSPACE/fixtures:/fixtures
+        czerasz/wrk-json wrk http://app:8080 -d15s -t4 -c64 -s /scripts/process.lua
+      shell: bash
+
+    - name: Clean
+      run: docker stop app
+      shell: bash
+
