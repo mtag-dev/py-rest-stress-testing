@@ -32,6 +32,10 @@ runs:
         --name app app
       shell: bash
 
+    - name: Wait until app start
+      run: sleep 3s
+      shell: bash
+
     - name: Run GET raw userinfo
       run: >
         docker run --network ${{ inputs.network }}
