@@ -3,7 +3,7 @@ name: benchmarks
 on:
   workflow_run:
     workflows: [tests]
-    branches: [master]
+    branches: [master, test-ci]
     types: [completed]
 
 jobs:
