@@ -1,55 +1,27 @@
-name: GitHub Actions Demo
+name: Benchmarks
 on: [push]
+
 jobs:
-  Explore-GitHub-Actions:
+  benchmark:
+    name: Run the benchmark
     runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-
-#name: benchmarks
-#
-#on:
-#  pull_request:
-#    branches: [master, test-ci]
-#
-#  push:
-#    branches: [master, test-ci]
-#  workflow_run:
-#    workflows: [tests]
-#    branches: [master, test-ci]
-#    types: [completed]
-
-#jobs:
-#  benchmark:
-#    name: Run the benchmark
-#    runs-on: ubuntu-latest
 #    if: github.event.workflow_run.conclusion == 'success'
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Create docker network
-#        run: docker network create data
-#
-#      - name: Build Base
-#        run: docker build . -t benchmark-base
-#        shell: bash
-#
-#      - name: Benchmark aiohttp [raw]
-#        uses: ./.github/actions/benchmark_raw
-#        with:
-#          name: aiohttp
-#          network: data
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create docker network
+        run: docker network create data
+
+      - name: Build Base
+        run: docker build . -t benchmark-base
+        shell: bash
+
+      - name: Benchmark aiohttp
+        uses: ./.github/actions/benchmark_raw
+        with:
+          framework: aiohttp
+          network: data
 
 #
 #      - name: Benchmark Blacksheep [raw]
