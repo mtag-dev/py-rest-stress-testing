@@ -1,10 +1,15 @@
 name: benchmarks
 
 on:
-  workflow_run:
-    workflows: [tests]
+  pull_request:
     branches: [master, test-ci]
-    types: [completed]
+
+  push:
+    branches: [master, test-ci]
+#  workflow_run:
+#    workflows: [tests]
+#    branches: [master, test-ci]
+#    types: [completed]
 
 jobs:
   benchmark:
