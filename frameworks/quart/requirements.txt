@@ -1,2 +1,2 @@
-quart == 0.16.2
+quart == 0.18.0
 pydantic
