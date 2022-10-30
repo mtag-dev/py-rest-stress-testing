@@ -33,7 +33,7 @@ runs:
       shell: bash
 
     - name: Wait until app start
-      run: sleep 3s
+      run: sleep 5s
       shell: bash
 
     - name: Run GET raw userinfo
