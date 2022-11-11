@@ -2,7 +2,7 @@
 
 https://github.com/mtag-dev/py-rest-stress-testing
 ----------
-#### Updated: 2022-11-08
+#### Updated: 2022-11-11
 #### Original benchmark: https://klen.github.io/py-frameworks-bench/
 
 [![benchmarks](https://github.com/mtag-dev/py-rest-stress-testing/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/mtag-dev/py-rest-stress-testing/actions/workflows/benchmarks.yml)
@@ -40,7 +40,7 @@ For now, it is only issue tracker as example
 ## Table of contents
 
 * [The Methodic](#the-methodic)
-* [The Results](#the-results-2022-11-08)
+* [The Results](#the-results-2022-11-11)
 * [JSON response without schema](#json-response-from-primitives)
     * [GET: User info](#userinfo-raw)
     * [POST: Create task](#create-task-raw)
@@ -84,7 +84,7 @@ The "Issue tracker" suite has a four kind of tests:
 
 You can find test data [here](https://github.com/mtag-dev/py-rest-stress-testing/tree/master/fixtures).
 
-## The Results (2022-11-08)
+## The Results (2022-11-11)
 
 ### JSON response without schema
 
@@ -92,7 +92,7 @@ You can find test data [here](https://github.com/mtag-dev/py-rest-stress-testing
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22muffin-raw%22%2C%22blacksheep-raw%22%2C%22squall-raw%22%2C%22falcon-raw%22%2C%22baize-raw%22%2C%22emmett-raw%22%2C%22starlette-raw%22%2C%22sanic-raw%22%2C%22fastapi-raw%22%2C%22aiohttp-raw%22%2C%22quart-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5624%2C5582%2C5573%2C5391%2C5045%2C5020%2C4743%2C3623%2C2785%2C2522%2C2308%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22muffin-raw%22%2C%22blacksheep-raw%22%2C%22squall-raw%22%2C%22falcon-raw%22%2C%22baize-raw%22%2C%22emmett-raw%22%2C%22starlette-raw%22%2C%22sanic-raw%22%2C%22fastapi-raw%22%2C%22aiohttp-raw%22%2C%22quart-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5317%2C5219%2C5217%2C5133%2C4820%2C4679%2C4529%2C3361%2C2647%2C2239%2C2154%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Get user information and return using direct serialisation from Python primitives to JSON. </summary>
@@ -101,17 +101,17 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 5624 | 12.23 | 12.58 | 11.38
-| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 5582 | 12.29 | 12.60 | 11.52
-| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 5573 | 12.26 | 12.59 | 11.55
-| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 5391 | 12.64 | 13.07 | 11.89
-| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 5045 | 13.68 | 14.03 | 12.67
-| [emmett-raw](https://pypi.org/project/emmett/) `2.4.10` | 5020 | 13.43 | 13.80 | 12.81
-| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 4743 | 14.68 | 14.99 | 13.47
-| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 3623 | 17.60 | 19.01 | 17.70
-| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 2785 | 23.39 | 25.95 | 22.97
-| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 2522 | 25.19 | 25.37 | 25.35
-| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 2308 | 27.82 | 28.70 | 27.70
+| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 5317 | 12.16 | 13.12 | 12.10
+| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 5219 | 12.34 | 13.34 | 12.40
+| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 5217 | 12.25 | 13.28 | 12.40
+| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 5133 | 12.56 | 13.63 | 12.53
+| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 4820 | 13.96 | 14.67 | 13.30
+| [emmett-raw](https://pypi.org/project/emmett/) `2.4.12` | 4679 | 13.53 | 14.64 | 13.89
+| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 4529 | 14.26 | 15.46 | 14.13
+| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 3361 | 18.05 | 20.73 | 19.16
+| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 2647 | 23.81 | 26.84 | 24.16
+| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 2239 | 28.31 | 28.57 | 28.56
+| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 2154 | 28.09 | 30.63 | 29.68
 
 
 </details>
@@ -121,7 +121,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-raw%22%2C%22muffin-raw%22%2C%22emmett-raw%22%2C%22sanic-raw%22%2C%22falcon-raw%22%2C%22blacksheep-raw%22%2C%22baize-raw%22%2C%22starlette-raw%22%2C%22aiohttp-raw%22%2C%22quart-raw%22%2C%22fastapi-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B4055%2C2786%2C2623%2C2158%2C2007%2C1962%2C1913%2C1820%2C1390%2C1222%2C203%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-raw%22%2C%22muffin-raw%22%2C%22emmett-raw%22%2C%22sanic-raw%22%2C%22falcon-raw%22%2C%22blacksheep-raw%22%2C%22baize-raw%22%2C%22starlette-raw%22%2C%22aiohttp-raw%22%2C%22quart-raw%22%2C%22fastapi-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B3412%2C2607%2C2339%2C1963%2C1901%2C1730%2C1684%2C1634%2C1260%2C1134%2C204%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Get sprint tickets overview and return using direct serialisation from Python primitives to JSON. </summary>
@@ -130,17 +130,17 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 4055 | 14.18 | 18.47 | 15.77
-| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 2786 | 21.71 | 26.65 | 22.93
-| [emmett-raw](https://pypi.org/project/emmett/) `2.4.10` | 2623 | 22.44 | 28.47 | 24.40
-| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 2158 | 26.95 | 34.74 | 29.61
-| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 2007 | 29.82 | 37.55 | 31.88
-| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 1962 | 30.50 | 38.69 | 32.60
-| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 1913 | 31.08 | 39.80 | 33.40
-| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 1820 | 32.76 | 41.68 | 35.12
-| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 1390 | 45.81 | 46.18 | 45.99
-| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 1222 | 51.02 | 57.09 | 52.27
-| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 203 | 325.55 | 366.24 | 313.30
+| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 3412 | 16.32 | 21.99 | 18.75
+| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 2607 | 22.12 | 28.74 | 24.51
+| [emmett-raw](https://pypi.org/project/emmett/) `2.4.12` | 2339 | 24.60 | 31.66 | 27.32
+| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 1963 | 29.63 | 37.78 | 32.59
+| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 1901 | 30.68 | 40.48 | 33.66
+| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 1730 | 34.23 | 43.84 | 36.93
+| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 1684 | 34.63 | 45.60 | 37.93
+| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 1634 | 36.22 | 45.89 | 39.10
+| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 1260 | 50.55 | 50.89 | 50.70
+| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 1134 | 57.02 | 60.89 | 56.33
+| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 204 | 307.53 | 358.40 | 311.19
 
 
 </details>
@@ -150,7 +150,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-raw%22%2C%22muffin-raw%22%2C%22falcon-raw%22%2C%22blacksheep-raw%22%2C%22emmett-raw%22%2C%22baize-raw%22%2C%22starlette-raw%22%2C%22sanic-raw%22%2C%22quart-raw%22%2C%22aiohttp-raw%22%2C%22fastapi-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5000%2C4905%2C4821%2C4575%2C4260%2C3955%2C3898%2C3310%2C2109%2C1977%2C1614%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-raw%22%2C%22muffin-raw%22%2C%22falcon-raw%22%2C%22blacksheep-raw%22%2C%22emmett-raw%22%2C%22starlette-raw%22%2C%22baize-raw%22%2C%22sanic-raw%22%2C%22quart-raw%22%2C%22aiohttp-raw%22%2C%22fastapi-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B4695%2C4596%2C4582%2C4296%2C3861%2C3682%2C3566%2C3154%2C1959%2C1755%2C1518%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Create task object using default payload and return created object using direct serialisation from Python primitives to JSON. </summary>
@@ -159,17 +159,17 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 5000 | 13.62 | 14.01 | 12.82
-| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 4905 | 14.04 | 14.39 | 13.03
-| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 4821 | 14.33 | 14.69 | 13.23
-| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 4575 | 15.09 | 15.46 | 13.97
-| [emmett-raw](https://pypi.org/project/emmett/) `2.4.10` | 4260 | 15.54 | 16.25 | 15.15
-| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 3955 | 16.64 | 16.89 | 16.16
-| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 3898 | 17.53 | 17.96 | 16.38
-| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 3310 | 19.08 | 21.14 | 19.32
-| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 2109 | 30.08 | 31.84 | 30.31
-| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 1977 | 32.33 | 32.52 | 32.33
-| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 1614 | 40.56 | 45.11 | 39.59
+| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 4695 | 13.71 | 14.78 | 13.73
+| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 4596 | 14.04 | 15.23 | 13.95
+| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 4582 | 14.18 | 15.36 | 13.95
+| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 4296 | 15.08 | 16.25 | 14.93
+| [emmett-raw](https://pypi.org/project/emmett/) `2.4.12` | 3861 | 16.00 | 17.54 | 16.91
+| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 3682 | 17.24 | 18.57 | 17.34
+| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 3566 | 17.90 | 18.43 | 17.92
+| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 3154 | 19.36 | 22.35 | 20.36
+| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 1959 | 31.11 | 34.62 | 32.63
+| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 1755 | 36.29 | 36.56 | 36.41
+| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 1518 | 41.96 | 47.52 | 42.07
 
 
 </details>
@@ -178,7 +178,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22falcon-raw%22%2C%22blacksheep-raw%22%2C%22muffin-raw%22%2C%22squall-raw%22%2C%22baize-raw%22%2C%22emmett-raw%22%2C%22starlette-raw%22%2C%22sanic-raw%22%2C%22fastapi-raw%22%2C%22aiohttp-raw%22%2C%22quart-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5400%2C5355%2C5304%2C5116%2C4597%2C4469%2C4408%2C3477%2C2514%2C2410%2C2341%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22falcon-raw%22%2C%22muffin-raw%22%2C%22blacksheep-raw%22%2C%22squall-raw%22%2C%22baize-raw%22%2C%22starlette-raw%22%2C%22emmett-raw%22%2C%22sanic-raw%22%2C%22fastapi-raw%22%2C%22quart-raw%22%2C%22aiohttp-raw%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5143%2C4968%2C4966%2C4805%2C4217%2C4147%2C4052%2C3383%2C2274%2C2193%2C2181%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Update task object using default payload. </summary>
@@ -187,17 +187,17 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 5400 | 12.58 | 12.98 | 11.83
-| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 5355 | 12.72 | 13.01 | 11.95
-| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 5304 | 12.86 | 13.18 | 12.05
-| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 5116 | 13.28 | 13.62 | 12.54
-| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 4597 | 14.23 | 14.50 | 13.90
-| [emmett-raw](https://pypi.org/project/emmett/) `2.4.10` | 4469 | 14.83 | 15.50 | 14.46
-| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 4408 | 15.45 | 15.79 | 14.49
-| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 3477 | 18.00 | 19.95 | 18.41
-| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 2514 | 26.22 | 28.59 | 25.40
-| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 2410 | 26.42 | 26.73 | 26.54
-| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 2341 | 27.42 | 28.18 | 27.30
+| [falcon-raw](https://pypi.org/project/falcon/) `3.1.0` | 5143 | 12.58 | 13.52 | 12.45
+| [muffin-raw](https://pypi.org/project/muffin/) `0.87.3` | 4968 | 13.03 | 13.99 | 12.92
+| [blacksheep-raw](https://pypi.org/project/blacksheep/) `1.2.8` | 4966 | 12.87 | 13.96 | 12.96
+| [squall-raw](https://pypi.org/project/python-squall/) `0.3.0` | 4805 | 13.33 | 14.38 | 13.41
+| [baize-raw](https://pypi.org/project/baize/) `0.18.2` | 4217 | 15.09 | 15.53 | 15.15
+| [starlette-raw](https://pypi.org/project/starlette/) `0.21.0` | 4147 | 15.17 | 16.45 | 15.44
+| [emmett-raw](https://pypi.org/project/emmett/) `2.4.12` | 4052 | 15.18 | 16.59 | 16.23
+| [sanic-raw](https://pypi.org/project/sanic/) `22.9.1` | 3383 | 17.83 | 20.53 | 18.96
+| [fastapi-raw](https://pypi.org/project/fastapi/) `0.86.0` | 2274 | 27.43 | 31.12 | 28.10
+| [quart-raw](https://pypi.org/project/quart/) `0.18.3` | 2193 | 27.72 | 29.80 | 29.15
+| [aiohttp-raw](https://pypi.org/project/aiohttp/) `3.8.3` | 2181 | 29.09 | 29.43 | 29.33
 
 
 </details>
@@ -208,7 +208,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5331%2C3392%2C2181%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5006%2C3109%2C2042%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Get user information and return using dataclasses, no extra validation. </summary>
@@ -217,9 +217,9 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 5331 | 12.83 | 13.16 | 12.04
-| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 3392 | 19.12 | 20.47 | 18.85
-| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 2181 | 30.71 | 33.25 | 29.30
+| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 5006 | 12.84 | 13.91 | 12.87
+| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 3109 | 20.17 | 22.42 | 20.60
+| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 2042 | 31.10 | 34.68 | 31.29
 
 
 </details>
@@ -229,7 +229,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B1466%2C150%2C81%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B1406%2C152%2C84%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Get sprint tickets overview and return using dataclasses, no extra validation. </summary>
@@ -238,9 +238,9 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 1466 | 40.84 | 51.79 | 43.56
-| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 150 | 397.38 | 500.56 | 419.20
-| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 81 | 708.77 | 938.50 | 764.37
+| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 1406 | 42.04 | 53.90 | 45.40
+| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 152 | 409.93 | 482.96 | 415.23
+| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 84 | 719.62 | 889.62 | 739.38
 
 
 </details>
@@ -250,7 +250,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B4286%2C1500%2C958%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B3980%2C1351%2C898%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Create task object using default payload and return created object using dataclasses, no extra validation. </summary>
@@ -259,9 +259,9 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 4286 | 16.02 | 16.45 | 14.90
-| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 1500 | 44.79 | 47.49 | 42.61
-| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 958 | 70.18 | 75.00 | 66.66
+| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 3980 | 16.10 | 17.25 | 16.07
+| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 1351 | 47.28 | 52.32 | 47.23
+| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 898 | 72.23 | 77.82 | 71.13
 
 
 </details>
@@ -270,7 +270,7 @@ Sorted by max req/s
 
 
 
-<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B5118%2C4076%2C2592%5D%7D%5D%7D%7D' />
+<img src='https://quickchart.io/chart?width=800&height=400&c=%7Btype%3A%22bar%22%2Cdata%3A%7Blabels%3A%5B%22squall-dataclasses%22%2C%22blacksheep-dataclasses%22%2C%22fastapi-dataclasses%22%5D%2Cdatasets%3A%5B%7Blabel%3A%22req/s%22%2Cdata%3A%5B4787%2C3730%2C2357%5D%7D%5D%7D%7D' />
 
 <details open>
 <summary> Update task object using default payload, no extra validation. </summary>
@@ -279,9 +279,9 @@ Sorted by max req/s
 
 | Framework | Requests/sec | Latency 50% (ms) | Latency 75% (ms) | Latency Avg (ms) |
 | --------- | -----------: | ---------------: | ---------------: | ---------------: |
-| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 5118 | 13.33 | 13.64 | 12.50
-| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 4076 | 16.50 | 16.94 | 15.67
-| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 2592 | 24.87 | 28.03 | 24.66
+| [squall-dataclasses](https://pypi.org/project/python-squall/) `0.3.0` | 4787 | 13.37 | 14.42 | 13.42
+| [blacksheep-dataclasses](https://pypi.org/project/blacksheep/) `1.2.8` | 3730 | 16.74 | 18.16 | 17.16
+| [fastapi-dataclasses](https://pypi.org/project/fastapi/) `0.86.0` | 2357 | 26.61 | 30.21 | 27.12
 
 
 </details>
